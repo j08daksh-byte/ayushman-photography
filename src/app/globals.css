@@ -774,4 +774,49 @@ input, textarea, select {
   background-color: #FFFFFF !important;
 }
 
+/* ══════════════════════════════════════════════
+   ADMIN RESPONSIVE MOBILE STYLES
+   ══════════════════════════════════════════════ */
+.admin-desktop-table {
+  display: block;
+}
 
+.admin-mobile-cards {
+  display: none;
+}
+
+.admin-tabs-scroll {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.admin-tabs-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .admin-desktop-table {
+    display: none !important;
+  }
+  .admin-mobile-cards {
+    display: flex !important;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+  .admin-modal-card {
+    width: 95% !important;
+    max-width: 95% !important;
+    margin: 1rem auto !important;
+    padding: 1.25rem 1rem !important;
+    max-height: 92vh !important;
+  }
+  .admin-grid-2col,
+  .admin-grid-3col {
+    grid-template-columns: 1fr !important;
+  }
+}

@@ -347,10 +347,10 @@ export default function CheckoutPage() {
           </div>
 
           <form onSubmit={handleInitiateOrder}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', alignItems: 'start' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: '2rem', alignItems: 'start' }}>
               
               {/* LEFT COLUMN: Shipping Form */}
-              <div style={{ background: '#FFFFFF', borderRadius: '12px', border: '1px solid #E5E7EB', padding: '1.5rem' }}>
+              <div style={{ background: '#FFFFFF', borderRadius: '12px', border: '1px solid #E5E7EB', padding: 'clamp(1rem, 3vw, 1.5rem)' }}>
                 <h2 style={{ fontFamily: "'Inter', sans-serif", fontSize: '1.1rem', fontWeight: 700, color: '#1E1E1E', marginBottom: '1.25rem', borderBottom: '1px solid #E5E7EB', paddingBottom: '0.5rem' }}>
                   1. Shipping & Contact Information
                 </h2>
@@ -361,7 +361,7 @@ export default function CheckoutPage() {
                   </div>
                 )}
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem', marginBottom: '1rem' }}>
                   <div>
                     <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#1E1E1E', marginBottom: '0.3rem' }}>
                       Full Name *
@@ -417,7 +417,7 @@ export default function CheckoutPage() {
                   />
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.75rem', marginBottom: '1.25rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))', gap: '0.75rem', marginBottom: '1.25rem' }}>
                   <div>
                     <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: '#4B5563', marginBottom: '0.2rem' }}>
                       City *
@@ -790,7 +790,7 @@ export default function CheckoutPage() {
                 width: '100%',
                 maxHeight: '92vh',
                 overflowY: 'auto',
-                padding: '1.75rem',
+                padding: 'clamp(1.2rem, 3vw, 1.75rem)',
                 position: 'relative',
                 boxShadow: '0 20px 50px rgba(0,0,0,0.3)',
               }}

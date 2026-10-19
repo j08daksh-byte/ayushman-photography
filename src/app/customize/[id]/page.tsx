@@ -192,7 +192,7 @@ export default function CustomizerPage({ params }: { params: Promise<{ id: strin
             <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>{product.name}</span>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', alignItems: 'start' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: '2rem', alignItems: 'start' }}>
             
             {/* LEFT COLUMN: Spec Selector & Controls */}
             <div style={{ background: 'var(--bg-card)', borderRadius: '12px', border: '1px solid var(--border-light)', padding: '1.5rem', boxShadow: 'var(--shadow-subtle)' }}>
@@ -305,7 +305,7 @@ export default function CustomizerPage({ params }: { params: Promise<{ id: strin
                 <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>
                   4. Quantity Discount Tiers
                 </label>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '0.35rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(52px, 1fr))', gap: '0.35rem' }}>
                   {QUANTITY_TIERS.map((tier, idx) => (
                     <button
                       key={tier.qty}

@@ -355,8 +355,8 @@ export default function Navbar() {
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: '0.35rem',
-                  padding: '0.35rem 0.75rem',
+                  gap: '0.25rem',
+                  padding: '0.35rem 0.65rem',
                   borderRadius: '999px',
                   background: '#0B2545',
                   color: '#FFFFFF',
@@ -365,9 +365,12 @@ export default function Navbar() {
                   fontWeight: 700,
                   textDecoration: 'none',
                   boxShadow: '0 2px 6px rgba(11,37,69,0.25)',
+                  whiteSpace: 'nowrap',
                 }}
               >
-                <span>🛡️</span> Admin Portal
+                <span>🛡️</span>
+                <span className="vp-desktop-only">Admin Portal</span>
+                <span className="vp-mobile-only" style={{ fontSize: '0.7rem' }}>Admin</span>
               </Link>
             )}
 
@@ -386,7 +389,7 @@ export default function Navbar() {
             </Link>
 
             {user ? (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <Link
                   href="/profile"
                   style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textDecoration: 'none' }}
@@ -395,12 +398,13 @@ export default function Navbar() {
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E1E1E" strokeWidth="1.8">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
                   </svg>
-                  <span style={{ fontSize: '0.6875rem', color: '#1E1E1E', fontFamily: "'Inter', sans-serif" }}>
+                  <span className="vp-desktop-only" style={{ fontSize: '0.6875rem', color: '#1E1E1E', fontFamily: "'Inter', sans-serif" }}>
                     {user.name?.split(' ')[0]} (Profile)
                   </span>
                 </Link>
                 <button
                   onClick={() => logout()}
+                  className="vp-desktop-only"
                   style={{ background: 'transparent', border: 'none', color: '#6B7280', fontSize: '0.65rem', cursor: 'pointer', fontFamily: "'Inter', sans-serif", textDecoration: 'underline' }}
                 >
                   Logout
@@ -438,7 +442,7 @@ export default function Navbar() {
                 <circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" />
                 <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
               </svg>
-              <span style={{ fontSize: '0.6875rem', color: '#1E1E1E', fontFamily: "'Inter', sans-serif" }}>Cart</span>
+              <span className="vp-desktop-only" style={{ fontSize: '0.6875rem', color: '#1E1E1E', fontFamily: "'Inter', sans-serif" }}>Cart</span>
               {totalItemCount > 0 && (
                 <span
                   style={{
@@ -961,6 +965,34 @@ export default function Navbar() {
                   <span>🛒</span> Cart ({totalItemCount})
                 </Link>
               </div>
+
+              {user && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    logout();
+                    setIsMobileDrawerOpen(false);
+                  }}
+                  style={{
+                    padding: '0.5rem',
+                    borderRadius: '6px',
+                    border: '1px solid #FCA5A5',
+                    background: '#FEE2E2',
+                    color: '#991B1B',
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: '0.78125rem',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.35rem',
+                  }}
+                >
+                  🚪 Sign Out ({user.name?.split(' ')[0]})
+                </button>
+              )}
             </div>
           </div>
         </div>

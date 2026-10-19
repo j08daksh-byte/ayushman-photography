@@ -133,9 +133,9 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '1.5rem',
-            padding: '1.75rem',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
+            gap: '1.25rem',
+            padding: 'clamp(1rem, 3vw, 1.75rem)',
           }}
         >
           {/* Left: Image */}

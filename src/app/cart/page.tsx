@@ -92,7 +92,7 @@ export default function CartPage() {
               </Link>
             </div>
           ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', alignItems: 'start' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: '2rem', alignItems: 'start' }}>
               
               {/* LEFT COLUMN: Cart Items List */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>

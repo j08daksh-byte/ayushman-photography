@@ -902,41 +902,43 @@ export default function AdminPortalPage() {
     <>
       <Navbar />
 
-      <main className="admin-scope" style={{ minHeight: '85vh', background: '#F8FAFC', padding: '2rem 1rem', fontFamily: "'Inter', sans-serif" }}>
+      <main className="admin-scope" style={{ minHeight: '85vh', background: '#F8FAFC', padding: 'clamp(1rem, 2vw, 2rem) clamp(0.75rem, 2vw, 1.25rem)', fontFamily: "'Inter', sans-serif" }}>
         <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
           {/* Header Bar */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.85rem' }}>
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <h1 style={{ fontSize: '1.6rem', fontWeight: 800, color: '#0B2545', margin: 0 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+                <h1 style={{ fontSize: 'clamp(1.25rem, 3vw, 1.6rem)', fontWeight: 800, color: '#0B2545', margin: 0 }}>
                   AYUSHMAN CARDS ADMIN PORTAL
                 </h1>
-                <span style={{ fontSize: '0.7rem', fontWeight: 800, padding: '0.2rem 0.55rem', borderRadius: '999px', background: '#FEF3C7', color: '#92400E' }}>
+                <span style={{ fontSize: '0.6875rem', fontWeight: 800, padding: '0.2rem 0.5rem', borderRadius: '999px', background: '#FEF3C7', color: '#92400E' }}>
                   SUPER ADMIN
                 </span>
               </div>
-              <p style={{ fontSize: '0.8125rem', color: '#64748B', margin: '0.25rem 0 0' }}>
+              <p style={{ fontSize: '0.8125rem', color: '#64748B', margin: '0.2rem 0 0' }}>
                 Real-time order fulfillment, revenue analytics, customer registrations and stock alerts
               </p>
             </div>
 
-            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
               <Link
                 href="/"
                 target="_blank"
-                style={{ padding: '0.5rem 1rem', borderRadius: '8px', border: '1px solid #CBD5E1', background: '#FFF', color: '#0B2545', fontWeight: 700, fontSize: '0.8125rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}
+                style={{ padding: '0.45rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', background: '#FFF', color: '#0B2545', fontWeight: 700, fontSize: '0.78125rem', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}
               >
-                <span>Visit Live Store</span> <span>↗</span>
+                <span>Store</span> <span>↗</span>
               </Link>
               <button
+                type="button"
                 onClick={fetchAdminData}
-                style={{ padding: '0.5rem 1rem', borderRadius: '8px', border: '1px solid #CBD5E1', background: '#FFF', color: '#0B2545', fontWeight: 700, fontSize: '0.8125rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}
+                style={{ padding: '0.45rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', background: '#FFF', color: '#0B2545', fontWeight: 700, fontSize: '0.78125rem', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}
               >
                 <span>🔄</span> Refresh
               </button>
               <button
+                type="button"
                 onClick={() => logout()}
-                style={{ padding: '0.5rem 1rem', borderRadius: '8px', border: 'none', background: '#FEE2E2', color: '#991B1B', fontWeight: 700, fontSize: '0.8125rem', cursor: 'pointer' }}
+                style={{ padding: '0.45rem 0.85rem', borderRadius: '8px', border: 'none', background: '#FEE2E2', color: '#991B1B', fontWeight: 700, fontSize: '0.78125rem', cursor: 'pointer' }}
               >
                 Sign Out
               </button>
@@ -949,8 +951,8 @@ export default function AdminPortalPage() {
             </div>
           )}
 
-          {/* Navigation Tabs Bar (Ayushman Website Theme) */}
-          <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.75rem', borderBottom: '1px solid #E2E8F0', paddingBottom: '0.65rem', flexWrap: 'wrap' }}>
+          {/* Navigation Tabs Bar (Scrollable on Mobile) */}
+          <div className="admin-tabs-scroll" style={{ marginBottom: '1.5rem', borderBottom: '1px solid #E2E8F0', paddingBottom: '0.65rem' }}>
             {[
               { id: 'dashboard', label: 'Dashboard', icon: '📊' },
               { id: 'orders', label: 'Orders', icon: '🛍️', count: orders.length },
@@ -967,21 +969,24 @@ export default function AdminPortalPage() {
               return (
                 <button
                   key={tab.id}
+                  type="button"
                   onClick={() => setActiveTab(tab.id as any)}
                   style={{
-                    padding: '0.65rem 1.15rem',
+                    padding: '0.6rem 1rem',
                     borderRadius: '8px',
                     border: 'none',
                     background: isActive ? '#0B2545' : '#FFFFFF',
                     color: isActive ? '#FFFFFF' : '#475569',
                     fontWeight: 700,
-                    fontSize: '0.84375rem',
+                    fontSize: '0.8125rem',
                     cursor: 'pointer',
                     display: 'inline-flex',
                     alignItems: 'center',
                     gap: '0.4rem',
                     boxShadow: isActive ? '0 2px 8px rgba(11,37,69,0.2)' : '0 1px 2px rgba(0,0,0,0.03)',
                     transition: 'all 0.15s ease',
+                    flexShrink: 0,
+                    whiteSpace: 'nowrap',
                   }}
                 >
                   <span>{tab.icon}</span>
@@ -1162,7 +1167,7 @@ export default function AdminPortalPage() {
               </div>
 
               {/* Lower 2-Column Grid */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))', gap: '1.5rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: '1.5rem' }}>
                 <div style={{ background: '#FFFFFF', borderRadius: '12px', border: '1px solid #E2E8F0', padding: '1.5rem', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
                     <h3 style={{ fontSize: '0.875rem', fontWeight: 800, color: '#0B2545', textTransform: 'uppercase', margin: 0 }}>
@@ -1251,8 +1256,9 @@ export default function AdminPortalPage() {
                 </div>
               </div>
 
-              <div style={{ overflowX: 'auto' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8125rem', textAlign: 'left' }}>
+              {/* Desktop View Table */}
+              <div className="admin-desktop-table" style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+                <table style={{ width: '100%', minWidth: '820px', borderCollapse: 'collapse', fontSize: '0.8125rem', textAlign: 'left' }}>
                   <thead>
                     <tr style={{ borderBottom: '2px solid #E2E8F0', color: '#64748B', textTransform: 'uppercase', fontSize: '0.725rem' }}>
                       <th style={{ padding: '0.75rem' }}>Order ID</th>
@@ -1335,6 +1341,116 @@ export default function AdminPortalPage() {
                   </tbody>
                 </table>
               </div>
+
+              {/* Mobile Phone Orders Card View */}
+              <div className="admin-mobile-cards">
+                {filteredOrders.map((o) => (
+                  <div
+                    key={o.id}
+                    style={{
+                      background: '#FFFFFF',
+                      border: '1px solid #E2E8F0',
+                      borderRadius: '12px',
+                      padding: '1rem',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '0.75rem',
+                      boxShadow: '0 1px 3px rgba(0,0,0,0.03)',
+                    }}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontFamily: 'monospace', fontWeight: 800, color: '#0B2545', fontSize: '0.875rem' }}>
+                        #{o.id.slice(-8).toUpperCase()}
+                      </span>
+                      <span style={{ fontSize: '1.05rem', fontWeight: 800, color: '#059669' }}>
+                        ₹{o.totalAmount?.toLocaleString()}
+                      </span>
+                    </div>
+
+                    <div>
+                      <div style={{ fontWeight: 700, fontSize: '0.9rem', color: '#0B2545' }}>{o.customerName}</div>
+                      <a href={`tel:${o.customerPhone}`} style={{ fontSize: '0.78125rem', color: '#2563EB', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.25rem', marginTop: '0.15rem' }}>
+                        📱 {o.customerPhone}
+                      </a>
+                    </div>
+
+                    <div style={{ fontSize: '0.78125rem', color: '#475569', background: '#F8FAFC', padding: '0.5rem', borderRadius: '6px' }}>
+                      <div style={{ fontWeight: 600, color: '#0F172A' }}>{o.eventType}</div>
+                      <div style={{ color: '#64748B' }}>{o.packageType || 'Custom Print Job'}</div>
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
+                      <div>
+                        <label style={{ display: 'block', fontSize: '0.6875rem', fontWeight: 700, color: '#64748B', marginBottom: '0.25rem' }}>PAYMENT</label>
+                        <select
+                          value={o.paymentStatus || 'PENDING'}
+                          onChange={(e) => handleUpdatePaymentStatus(o.id, e.target.value)}
+                          style={{
+                            width: '100%',
+                            padding: '0.4rem 0.5rem',
+                            borderRadius: '6px',
+                            border: '1px solid #CBD5E1',
+                            fontSize: '0.75rem',
+                            fontWeight: 700,
+                            background: o.paymentStatus === 'PAID' ? '#D1FAE5' : '#FEF3C7',
+                            color: o.paymentStatus === 'PAID' ? '#065F46' : '#92400E',
+                          }}
+                        >
+                          <option value="PENDING">PENDING</option>
+                          <option value="PAID">PAID</option>
+                          <option value="FAILED">FAILED</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label style={{ display: 'block', fontSize: '0.6875rem', fontWeight: 700, color: '#64748B', marginBottom: '0.25rem' }}>STATUS</label>
+                        <select
+                          value={o.status || 'NEW'}
+                          onChange={(e) => handleUpdateOrderStatus(o.id, e.target.value)}
+                          style={{
+                            width: '100%',
+                            padding: '0.4rem 0.5rem',
+                            borderRadius: '6px',
+                            border: '1px solid #CBD5E1',
+                            fontSize: '0.75rem',
+                            fontWeight: 700,
+                            background: '#F1F5F9',
+                            color: '#0B2545',
+                          }}
+                        >
+                          <option value="NEW">NEW</option>
+                          <option value="PROCESSING">PROCESSING</option>
+                          <option value="PRINTING">PRINTING</option>
+                          <option value="SHIPPED">SHIPPED</option>
+                          <option value="DELIVERED">DELIVERED</option>
+                          <option value="CANCELLED">CANCELLED</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setSelectedInvoiceOrder(o)}
+                      style={{
+                        width: '100%',
+                        padding: '0.55rem',
+                        borderRadius: '8px',
+                        background: '#0B2545',
+                        color: '#FFFFFF',
+                        border: 'none',
+                        fontSize: '0.78125rem',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '0.35rem',
+                      }}
+                    >
+                      🧾 View Tax Invoice
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
@@ -1342,7 +1458,7 @@ export default function AdminPortalPage() {
               TAB: PRODUCTS CATALOG CMS
              ═══════════════════════════════════════════════ */}
           {activeTab === 'products' && (
-            <div style={{ background: '#FFFFFF', borderRadius: '12px', border: '1px solid #E2E8F0', padding: '1.5rem' }}>
+            <div style={{ background: '#FFFFFF', borderRadius: '12px', border: '1px solid #E2E8F0', padding: 'clamp(1rem, 2vw, 1.5rem)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
                 <div style={{ display: 'flex', gap: '0.75rem', flex: '1 1 350px', flexWrap: 'wrap' }}>
                   <input
@@ -1384,8 +1500,9 @@ export default function AdminPortalPage() {
                 </button>
               </div>
 
-              <div style={{ overflowX: 'auto' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8125rem', textAlign: 'left' }}>
+              {/* Desktop View Table */}
+              <div className="admin-desktop-table" style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+                <table style={{ width: '100%', minWidth: '780px', borderCollapse: 'collapse', fontSize: '0.8125rem', textAlign: 'left' }}>
                   <thead>
                     <tr style={{ borderBottom: '2px solid #E2E8F0', color: '#64748B', textTransform: 'uppercase', fontSize: '0.725rem' }}>
                       <th style={{ padding: '0.75rem' }}>Product</th>
@@ -1446,25 +1563,136 @@ export default function AdminPortalPage() {
                   </tbody>
                 </table>
               </div>
+
+              {/* Mobile Phone Card View */}
+              <div className="admin-mobile-cards">
+                {filteredProducts.map((p) => (
+                  <div
+                    key={p.id}
+                    style={{
+                      background: '#FFFFFF',
+                      border: '1px solid #E2E8F0',
+                      borderRadius: '12px',
+                      padding: '1rem',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '0.75rem',
+                      boxShadow: '0 1px 3px rgba(0,0,0,0.03)',
+                    }}
+                  >
+                    <div style={{ display: 'flex', gap: '0.85rem', alignItems: 'flex-start' }}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={p.image}
+                        alt={p.title}
+                        style={{ width: '56px', height: '56px', borderRadius: '8px', objectFit: 'cover', background: '#F1F5F9', flexShrink: 0 }}
+                      />
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontWeight: 800, fontSize: '0.925rem', color: '#0B2545', lineHeight: 1.35, marginBottom: '0.35rem' }}>
+                          {p.title}
+                        </div>
+                        <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', alignItems: 'center' }}>
+                          <span style={{ fontSize: '0.725rem', color: '#475569', background: '#F1F5F9', padding: '0.15rem 0.45rem', borderRadius: '4px', fontWeight: 600 }}>
+                            {p.category}
+                          </span>
+                          <span
+                            style={{
+                              padding: '0.15rem 0.45rem',
+                              borderRadius: '999px',
+                              fontSize: '0.6875rem',
+                              fontWeight: 700,
+                              background: p.isActive !== false ? '#D1FAE5' : '#FEE2E2',
+                              color: p.isActive !== false ? '#065F46' : '#991B1B',
+                            }}
+                          >
+                            {p.isActive !== false ? 'Live' : 'Hidden'}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#F8FAFC', padding: '0.55rem 0.75rem', borderRadius: '8px' }}>
+                      <div>
+                        <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#0B2545' }}>
+                          {p.price}
+                        </div>
+                        <div style={{ fontSize: '0.7rem', color: '#64748B' }}>
+                          {p.unit || '100 Cards'}
+                        </div>
+                      </div>
+                      {p.badge && (
+                        <span style={{ padding: '0.2rem 0.5rem', borderRadius: '4px', background: '#E0E7FF', color: '#3730A3', fontSize: '0.6875rem', fontWeight: 700 }}>
+                          {p.badge}
+                        </span>
+                      )}
+                    </div>
+
+                    <div style={{ display: 'flex', gap: '0.5rem', borderTop: '1px solid #F1F5F9', paddingTop: '0.5rem' }}>
+                      <button
+                        type="button"
+                        onClick={() => handleOpenEditProduct(p)}
+                        style={{
+                          flex: 1,
+                          padding: '0.55rem',
+                          borderRadius: '8px',
+                          border: '1.5px solid #0B2545',
+                          background: '#FFFFFF',
+                          color: '#0B2545',
+                          cursor: 'pointer',
+                          fontWeight: 700,
+                          fontSize: '0.8125rem',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '0.35rem',
+                        }}
+                      >
+                        ✏️ Edit Product
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteProduct(p.id)}
+                        style={{
+                          padding: '0.55rem 0.85rem',
+                          borderRadius: '8px',
+                          border: '1px solid #FCA5A5',
+                          background: '#FEE2E2',
+                          color: '#991B1B',
+                          cursor: 'pointer',
+                          fontWeight: 700,
+                          fontSize: '0.8125rem',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                        aria-label="Delete product"
+                      >
+                        🗑️
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
           {/* ═══ TAB: CATEGORIES CMS ═══ */}
           {activeTab === 'categories' && (
-            <div style={{ background: '#FFFFFF', borderRadius: '12px', border: '1px solid #E2E8F0', padding: '1.5rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+            <div style={{ background: '#FFFFFF', borderRadius: '12px', border: '1px solid #E2E8F0', padding: 'clamp(1rem, 2vw, 1.5rem)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.75rem' }}>
                 <h3 style={{ fontSize: '1.15rem', fontWeight: 700, margin: 0, color: '#0B2545' }}>
                   Product Categories ({categoriesList.length})
                 </h3>
                 <button
+                  type="button"
                   onClick={handleOpenAddCategory}
-                  style={{ padding: '0.65rem 1.35rem', borderRadius: '999px', background: '#0B2545', color: '#FFFFFF', border: 'none', fontWeight: 700, fontSize: '0.875rem', cursor: 'pointer' }}
+                  style={{ padding: '0.55rem 1.25rem', borderRadius: '999px', background: '#0B2545', color: '#FFFFFF', border: 'none', fontWeight: 700, fontSize: '0.8125rem', cursor: 'pointer' }}
                 >
                   ➕ Add New Category
                 </button>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.25rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 260px), 1fr))', gap: '1rem' }}>
                 {categoriesList.map((cat) => (
                   <div key={cat.id} style={{ border: '1px solid #E2E8F0', borderRadius: '10px', padding: '1.25rem', background: '#FAFAFA', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                     <div>
@@ -1502,8 +1730,8 @@ export default function AdminPortalPage() {
 
           {/* ═══ TAB: HERO BANNERS CMS ═══ */}
           {activeTab === 'banners' && (
-            <div style={{ background: '#FFFFFF', borderRadius: '12px', border: '1px solid #E2E8F0', padding: '1.5rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
+            <div style={{ background: '#FFFFFF', borderRadius: '12px', border: '1px solid #E2E8F0', padding: 'clamp(1rem, 2vw, 1.5rem)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.75rem' }}>
                 <div>
                   <h3 style={{ fontSize: '1.15rem', fontWeight: 700, margin: '0 0 0.25rem', color: '#0B2545' }}>
                     Homepage Hero Banners ({bannersList.length})
@@ -1513,14 +1741,15 @@ export default function AdminPortalPage() {
                   </p>
                 </div>
                 <button
+                  type="button"
                   onClick={handleOpenAddBanner}
-                  style={{ padding: '0.65rem 1.35rem', borderRadius: '999px', background: '#0B2545', color: '#FFFFFF', border: 'none', fontWeight: 700, fontSize: '0.875rem', cursor: 'pointer' }}
+                  style={{ padding: '0.55rem 1.25rem', borderRadius: '999px', background: '#0B2545', color: '#FFFFFF', border: 'none', fontWeight: 700, fontSize: '0.8125rem', cursor: 'pointer' }}
                 >
                   ➕ Add Hero Banner
                 </button>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '1.25rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))', gap: '1rem' }}>
                 {bannersList.map((bnr, idx) => (
                   <div key={bnr.id} style={{ border: '1px solid #E2E8F0', borderRadius: '10px', overflow: 'hidden', background: '#FFFFFF', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                     <div style={{ height: '140px', position: 'relative', background: '#0B2545' }}>
@@ -1575,8 +1804,8 @@ export default function AdminPortalPage() {
 
           {/* ═══ TAB: CUSTOMERS / USERS ═══ */}
           {activeTab === 'customers' && (
-            <div style={{ background: '#FFFFFF', borderRadius: '12px', border: '1px solid #E2E8F0', padding: '1.5rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+            <div style={{ background: '#FFFFFF', borderRadius: '12px', border: '1px solid #E2E8F0', padding: 'clamp(1rem, 2vw, 1.5rem)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.75rem' }}>
                 <h3 style={{ fontSize: '1.15rem', fontWeight: 700, margin: 0, color: '#0B2545' }}>
                   Registered Customers ({usersList.filter((u) => u.role !== 'ADMIN').length})
                 </h3>
@@ -1585,12 +1814,13 @@ export default function AdminPortalPage() {
                   placeholder="Search customer name, email, phone..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  style={{ width: '300px', padding: '0.6rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', fontSize: '0.8125rem', color: '#0F172A', backgroundColor: '#FFFFFF' }}
+                  style={{ width: '100%', maxWidth: '300px', padding: '0.6rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', fontSize: '0.8125rem', color: '#0F172A', backgroundColor: '#FFFFFF' }}
                 />
               </div>
 
-              <div style={{ overflowX: 'auto' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8125rem', textAlign: 'left' }}>
+              {/* Desktop Table View */}
+              <div className="admin-desktop-table" style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+                <table style={{ width: '100%', minWidth: '680px', borderCollapse: 'collapse', fontSize: '0.8125rem', textAlign: 'left' }}>
                   <thead>
                     <tr style={{ borderBottom: '2px solid #E2E8F0', color: '#64748B', textTransform: 'uppercase', fontSize: '0.725rem' }}>
                       <th style={{ padding: '0.75rem' }}>Customer Name</th>
@@ -1619,13 +1849,67 @@ export default function AdminPortalPage() {
                   </tbody>
                 </table>
               </div>
+
+              {/* Mobile Card View */}
+              <div className="admin-mobile-cards">
+                {filteredUsers.filter((u) => u.role !== 'ADMIN').map((u) => (
+                  <div
+                    key={u.id}
+                    style={{
+                      background: '#FFFFFF',
+                      border: '1px solid #E2E8F0',
+                      borderRadius: '12px',
+                      padding: '1rem',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '0.5rem',
+                      boxShadow: '0 1px 3px rgba(0,0,0,0.03)',
+                    }}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontWeight: 800, color: '#0B2545', fontSize: '0.925rem' }}>{u.name}</span>
+                      <span style={{ padding: '0.15rem 0.5rem', borderRadius: '999px', fontSize: '0.6875rem', fontWeight: 700, background: '#D1FAE5', color: '#065F46' }}>
+                        {orders.filter((o) => o.customerEmail === u.email || o.userId === u.id).length} Orders
+                      </span>
+                    </div>
+
+                    <div style={{ fontSize: '0.78125rem', color: '#475569' }}>
+                      ✉️ {u.email}
+                    </div>
+                    {u.phone && (
+                      <a href={`tel:${u.phone}`} style={{ fontSize: '0.78125rem', color: '#2563EB', textDecoration: 'none' }}>
+                        📱 {u.phone}
+                      </a>
+                    )}
+
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', borderTop: '1px solid #F1F5F9', paddingTop: '0.5rem', marginTop: '0.25rem' }}>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteUser(u.id)}
+                        style={{
+                          padding: '0.4rem 0.85rem',
+                          borderRadius: '6px',
+                          border: '1px solid #FCA5A5',
+                          background: '#FEE2E2',
+                          color: '#991B1B',
+                          cursor: 'pointer',
+                          fontWeight: 700,
+                          fontSize: '0.75rem',
+                        }}
+                      >
+                        🗑️ Delete User
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
           {/* ═══ TAB: DISCOUNTS & COUPONS CMS ═══ */}
           {activeTab === 'discounts' && (
-            <div style={{ background: '#FFFFFF', borderRadius: '12px', border: '1px solid #E2E8F0', padding: '1.5rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+            <div style={{ background: '#FFFFFF', borderRadius: '12px', border: '1px solid #E2E8F0', padding: 'clamp(1rem, 2vw, 1.5rem)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.75rem' }}>
                 <div>
                   <h3 style={{ fontSize: '1.15rem', fontWeight: 700, margin: '0 0 0.25rem', color: '#0B2545' }}>
                     Coupons & Promo Codes ({couponsList.length})
@@ -1635,17 +1919,18 @@ export default function AdminPortalPage() {
                   </p>
                 </div>
                 <button
+                  type="button"
                   onClick={() => {
                     setCouponForm({ code: '', discountType: 'PERCENT', discountValue: 10, minOrderAmount: 2000, isActive: true });
                     setShowCouponModal(true);
                   }}
-                  style={{ padding: '0.65rem 1.35rem', borderRadius: '999px', background: '#0B2545', color: '#FFFFFF', border: 'none', fontWeight: 700, fontSize: '0.875rem', cursor: 'pointer' }}
+                  style={{ padding: '0.55rem 1.25rem', borderRadius: '999px', background: '#0B2545', color: '#FFFFFF', border: 'none', fontWeight: 700, fontSize: '0.8125rem', cursor: 'pointer' }}
                 >
                   ➕ Create Coupon
                 </button>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.25rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 260px), 1fr))', gap: '1rem' }}>
                 {couponsList.map((cpn) => (
                   <div key={cpn.id} style={{ border: '1.5px dashed #CBD5E1', borderRadius: '10px', padding: '1.25rem', background: '#FAFAFA', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                     <div>
@@ -1678,7 +1963,7 @@ export default function AdminPortalPage() {
 
           {/* ═══ TAB: INQUIRIES ═══ */}
           {activeTab === 'inquiries' && (
-            <div style={{ background: '#FFFFFF', borderRadius: '12px', border: '1px solid #E2E8F0', padding: '1.5rem' }}>
+            <div style={{ background: '#FFFFFF', borderRadius: '12px', border: '1px solid #E2E8F0', padding: 'clamp(1rem, 2vw, 1.5rem)' }}>
               <h3 style={{ fontSize: '1.15rem', fontWeight: 700, margin: '0 0 1.25rem', color: '#0B2545' }}>
                 Customer Messages & Quote Requests ({inquiries.length})
               </h3>
@@ -1701,14 +1986,14 @@ export default function AdminPortalPage() {
                       <div style={{ fontSize: '0.84375rem', color: '#4B5563', background: '#FFFFFF', padding: '0.75rem', borderRadius: '6px', border: '1px solid #E2E8F0' }}>
                         "{inq.message}"
                       </div>
-                      <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.75rem', justifyContent: 'flex-end' }}>
-                        <a href={`https://wa.me/91${inq.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Hello ${inq.name}! Thank you for contacting Ayushman Cards & Graphics regarding "${inq.eventType}". How can we help you?`)}`} target="_blank" rel="noreferrer" style={{ padding: '0.35rem 0.85rem', borderRadius: '6px', background: '#25D366', color: '#FFF', textDecoration: 'none', fontSize: '0.75rem', fontWeight: 700 }}>
+                      <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.75rem', justifyContent: 'flex-end', flexWrap: 'wrap' }}>
+                        <a href={`https://wa.me/91${inq.phone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Hello ${inq.name}! Thank you for contacting Ayushman Cards & Graphics regarding "${inq.eventType}". How can we help you?`)}`} target="_blank" rel="noreferrer" style={{ padding: '0.4rem 0.85rem', borderRadius: '6px', background: '#25D366', color: '#FFF', textDecoration: 'none', fontSize: '0.75rem', fontWeight: 700 }}>
                           💬 Reply on WhatsApp
                         </a>
-                        <a href={`tel:${inq.phone}`} style={{ padding: '0.35rem 0.85rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFF', color: '#0B2545', textDecoration: 'none', fontSize: '0.75rem', fontWeight: 600 }}>
+                        <a href={`tel:${inq.phone}`} style={{ padding: '0.4rem 0.85rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFF', color: '#0B2545', textDecoration: 'none', fontSize: '0.75rem', fontWeight: 600 }}>
                           📞 Call Customer
                         </a>
-                        <button onClick={() => handleDeleteInquiry(inq.id)} style={{ padding: '0.35rem 0.6rem', borderRadius: '6px', border: '1px solid #FCA5A5', background: '#FEE2E2', color: '#991B1B', cursor: 'pointer', fontSize: '0.75rem' }}>
+                        <button type="button" onClick={() => handleDeleteInquiry(inq.id)} style={{ padding: '0.4rem 0.65rem', borderRadius: '6px', border: '1px solid #FCA5A5', background: '#FEE2E2', color: '#991B1B', cursor: 'pointer', fontSize: '0.75rem' }}>
                           🗑️
                         </button>
                       </div>
@@ -1721,24 +2006,26 @@ export default function AdminPortalPage() {
 
           {/* ═══ TAB: STAFF & ROLES ═══ */}
           {activeTab === 'staff' && (
-            <div style={{ background: '#FFFFFF', borderRadius: '12px', border: '1px solid #E2E8F0', padding: '1.5rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+            <div style={{ background: '#FFFFFF', borderRadius: '12px', border: '1px solid #E2E8F0', padding: 'clamp(1rem, 2vw, 1.5rem)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.75rem' }}>
                 <h3 style={{ fontSize: '1.15rem', fontWeight: 700, margin: 0, color: '#0B2545' }}>
                   Admin & Studio Staff ({usersList.filter((u) => u.role === 'ADMIN').length})
                 </h3>
                 <button
+                  type="button"
                   onClick={() => {
                     setNewUser({ name: '', email: '', password: '', role: 'ADMIN', phone: '' });
                     setShowAddUserModal(true);
                   }}
-                  style={{ padding: '0.65rem 1.35rem', borderRadius: '999px', background: '#0B2545', color: '#FFFFFF', border: 'none', fontWeight: 700, fontSize: '0.875rem', cursor: 'pointer' }}
+                  style={{ padding: '0.55rem 1.25rem', borderRadius: '999px', background: '#0B2545', color: '#FFFFFF', border: 'none', fontWeight: 700, fontSize: '0.8125rem', cursor: 'pointer' }}
                 >
                   ➕ Create Admin Account
                 </button>
               </div>
 
-              <div style={{ overflowX: 'auto' }}>
-                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8125rem', textAlign: 'left' }}>
+              {/* Desktop Table View */}
+              <div className="admin-desktop-table" style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+                <table style={{ width: '100%', minWidth: '680px', borderCollapse: 'collapse', fontSize: '0.8125rem', textAlign: 'left' }}>
                   <thead>
                     <tr style={{ borderBottom: '2px solid #E2E8F0', color: '#64748B', textTransform: 'uppercase', fontSize: '0.725rem' }}>
                       <th style={{ padding: '0.75rem' }}>Staff Name</th>
@@ -1771,12 +2058,68 @@ export default function AdminPortalPage() {
                   </tbody>
                 </table>
               </div>
+
+              {/* Mobile Card View */}
+              <div className="admin-mobile-cards">
+                {usersList.filter((u) => u.role === 'ADMIN').map((u) => (
+                  <div
+                    key={u.id}
+                    style={{
+                      background: '#FFFFFF',
+                      border: '1px solid #E2E8F0',
+                      borderRadius: '12px',
+                      padding: '1rem',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '0.5rem',
+                      boxShadow: '0 1px 3px rgba(0,0,0,0.03)',
+                    }}
+                  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontWeight: 800, color: '#0B2545', fontSize: '0.925rem' }}>{u.name}</span>
+                      <span style={{ padding: '0.15rem 0.5rem', borderRadius: '999px', fontSize: '0.6875rem', fontWeight: 800, background: '#FEF3C7', color: '#92400E' }}>
+                        ADMIN
+                      </span>
+                    </div>
+
+                    <div style={{ fontSize: '0.78125rem', color: '#475569' }}>
+                      ✉️ {u.email}
+                    </div>
+                    {u.phone && (
+                      <a href={`tel:${u.phone}`} style={{ fontSize: '0.78125rem', color: '#2563EB', textDecoration: 'none' }}>
+                        📱 {u.phone}
+                      </a>
+                    )}
+
+                    {u.email !== 'admin@ayushmancards.com' && (
+                      <div style={{ display: 'flex', justifyContent: 'flex-end', borderTop: '1px solid #F1F5F9', paddingTop: '0.5rem', marginTop: '0.25rem' }}>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteUser(u.id)}
+                          style={{
+                            padding: '0.4rem 0.85rem',
+                            borderRadius: '6px',
+                            border: '1px solid #FCA5A5',
+                            background: '#FEE2E2',
+                            color: '#991B1B',
+                            cursor: 'pointer',
+                            fontWeight: 700,
+                            fontSize: '0.75rem',
+                          }}
+                        >
+                          🗑️ Delete Staff
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
           {/* ═══ TAB: STORE SETTINGS & CREDENTIALS ═══ */}
           {activeTab === 'settings' && (
-            <div style={{ background: '#FFFFFF', borderRadius: '12px', border: '1px solid #E2E8F0', padding: '1.75rem', maxWidth: '780px' }}>
+            <div style={{ background: '#FFFFFF', borderRadius: '12px', border: '1px solid #E2E8F0', padding: 'clamp(1rem, 2.5vw, 1.75rem)', maxWidth: '780px' }}>
               <div style={{ borderBottom: '1px solid #E2E8F0', paddingBottom: '1rem', marginBottom: '1.5rem' }}>
                 <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#0B2545', margin: '0 0 0.3rem' }}>
                   ⚙️ Store Settings & Social Connections
@@ -1798,7 +2141,7 @@ export default function AdminPortalPage() {
                   <h3 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#0B2545', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                     🏢 Printing Studio & Proprietorship
                   </h3>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+                  <div className="admin-grid-2col" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', marginBottom: '1rem' }}>
                     <div>
                       <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Proprietor Name *</label>
                       <input type="text" required value={settingProprietor} onChange={(e) => setSettingProprietor(e.target.value)} placeholder="Rajesh Saatoliya" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#0F172A' }} />
@@ -1814,7 +2157,7 @@ export default function AdminPortalPage() {
                     <input type="text" required value={settingAddress} onChange={(e) => setSettingAddress(e.target.value)} placeholder="63, Varruchi Marg, Freeganj Ujjain" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#0F172A' }} />
                   </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.75rem' }}>
+                  <div className="admin-grid-3col" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '0.75rem' }}>
                     <div>
                       <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>City</label>
                       <input type="text" value={settingCity} onChange={(e) => setSettingCity(e.target.value)} placeholder="Ujjain" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#0F172A' }} />
@@ -1836,7 +2179,7 @@ export default function AdminPortalPage() {
                     💬 WhatsApp & Instagram Integration (Floating Buttons & Socials)
                   </h3>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+                  <div className="admin-grid-2col" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', marginBottom: '1rem' }}>
                     <div>
                       <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>
                         WhatsApp Number * (e.g. +919479784979)
@@ -1856,7 +2199,7 @@ export default function AdminPortalPage() {
                     <textarea rows={2} value={settingWhatsAppMsg} onChange={(e) => setSettingWhatsAppMsg(e.target.value)} placeholder="Pre-filled message when customer clicks floating WhatsApp button" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#0F172A', fontFamily: 'inherit' }} />
                   </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.75rem' }}>
+                  <div className="admin-grid-3col" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '0.75rem' }}>
                     <div>
                       <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Instagram Handle</label>
                       <input type="text" value={settingInstagramHandle} onChange={(e) => setSettingInstagramHandle(e.target.value)} placeholder="@ayushmancards_ujjain" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#0F172A' }} />
@@ -1877,7 +2220,7 @@ export default function AdminPortalPage() {
                   <h3 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#0B2545', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                     🛡️ Master Admin Credentials
                   </h3>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+                  <div className="admin-grid-2col" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', marginBottom: '1rem' }}>
                     <div>
                       <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Admin Name</label>
                       <input type="text" required value={settingName} onChange={(e) => setSettingName(e.target.value)} style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#0F172A' }} />
@@ -1890,7 +2233,7 @@ export default function AdminPortalPage() {
 
                   <div>
                     <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Change Master Password (Optional)</label>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+                    <div className="admin-grid-2col" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '0.75rem' }}>
                       <input type="password" placeholder="New Password" value={settingNewPassword} onChange={(e) => setSettingNewPassword(e.target.value)} style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#0F172A' }} />
                       <input type="password" placeholder="Confirm Password" value={settingConfirmPassword} onChange={(e) => setSettingConfirmPassword(e.target.value)} style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#0F172A' }} />
                     </div>
@@ -1908,7 +2251,7 @@ export default function AdminPortalPage() {
         {/* ═══ MODALS ═══ */}
         {showProductModal && (
           <div className="admin-modal" style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem', overflowY: 'auto' }} onClick={() => setShowProductModal(false)}>
-            <div style={{ background: '#FFFFFF', borderRadius: '16px', padding: '2rem', maxWidth: '620px', width: '100%', maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.3)' }} onClick={(e) => e.stopPropagation()}>
+            <div className="admin-modal-card" style={{ background: '#FFFFFF', borderRadius: '16px', padding: 'clamp(1.25rem, 3vw, 2rem)', maxWidth: '620px', width: '100%', maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.3)' }} onClick={(e) => e.stopPropagation()}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', borderBottom: '1px solid #E2E8F0', paddingBottom: '0.75rem' }}>
                 <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0B2545', margin: 0 }}>
                   {editingProduct ? '✏️ Edit Product' : '➕ Add New Product'}
@@ -1929,7 +2272,7 @@ export default function AdminPortalPage() {
                   />
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.85rem' }}>
+                <div className="admin-grid-2col" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '0.85rem' }}>
                   <div>
                     <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Category *</label>
                     <select
@@ -1955,7 +2298,7 @@ export default function AdminPortalPage() {
                   </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.85rem' }}>
+                <div className="admin-grid-2col" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '0.85rem' }}>
                   <div>
                     <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Price in INR (₹) *</label>
                     <input
@@ -2059,7 +2402,7 @@ export default function AdminPortalPage() {
 
         {showCategoryModal && (
           <div className="admin-modal" style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.65)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }} onClick={() => setShowCategoryModal(false)}>
-            <div style={{ background: '#FFFFFF', borderRadius: '16px', padding: '2rem', maxWidth: '440px', width: '100%', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.3)' }} onClick={(e) => e.stopPropagation()}>
+            <div className="admin-modal-card" style={{ background: '#FFFFFF', borderRadius: '16px', padding: 'clamp(1.25rem, 3vw, 2rem)', maxWidth: '440px', width: '100%', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.3)' }} onClick={(e) => e.stopPropagation()}>
               <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0B2545', marginBottom: '1.25rem' }}>
                 {editingCategory ? '✏️ Edit Category' : '➕ Add New Category'}
               </h3>
@@ -2111,7 +2454,7 @@ export default function AdminPortalPage() {
 
         {showBannerModal && (
           <div className="admin-modal" style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem', overflowY: 'auto' }} onClick={() => setShowBannerModal(false)}>
-            <div style={{ background: '#FFFFFF', borderRadius: '16px', padding: '2rem', maxWidth: '580px', width: '100%', maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.3)' }} onClick={(e) => e.stopPropagation()}>
+            <div className="admin-modal-card" style={{ background: '#FFFFFF', borderRadius: '16px', padding: 'clamp(1.25rem, 3vw, 2rem)', maxWidth: '580px', width: '100%', maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.3)' }} onClick={(e) => e.stopPropagation()}>
               <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0B2545', marginBottom: '1.25rem' }}>
                 {editingBanner ? '✏️ Edit Hero Banner' : '➕ Create New Hero Banner'}
               </h3>
@@ -2154,7 +2497,7 @@ export default function AdminPortalPage() {
                   />
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '0.75rem' }}>
+                <div className="admin-grid-2col" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '0.75rem' }}>
                   <div>
                     <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Target Destination Link *</label>
                     <input
@@ -2192,7 +2535,7 @@ export default function AdminPortalPage() {
 
         {showCouponModal && (
           <div className="admin-modal" style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.65)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }} onClick={() => setShowCouponModal(false)}>
-            <div style={{ background: '#FFFFFF', borderRadius: '16px', padding: '2rem', maxWidth: '440px', width: '100%', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.3)' }} onClick={(e) => e.stopPropagation()}>
+            <div className="admin-modal-card" style={{ background: '#FFFFFF', borderRadius: '16px', padding: 'clamp(1.25rem, 3vw, 2rem)', maxWidth: '440px', width: '100%', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.3)' }} onClick={(e) => e.stopPropagation()}>
               <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0B2545', marginBottom: '1.25rem' }}>
                 🏷️ Create Discount Coupon
               </h3>
@@ -2208,7 +2551,7 @@ export default function AdminPortalPage() {
                     style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', color: '#0F172A', backgroundColor: '#FFFFFF', textTransform: 'uppercase', fontWeight: 700, fontSize: '0.875rem' }}
                   />
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+                <div className="admin-grid-2col" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '0.75rem' }}>
                   <div>
                     <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Type</label>
                     <select
@@ -2257,7 +2600,7 @@ export default function AdminPortalPage() {
 
         {showAddUserModal && (
           <div className="admin-modal" style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }} onClick={() => setShowAddUserModal(false)}>
-            <div style={{ background: '#FFFFFF', borderRadius: '16px', padding: '2rem', maxWidth: '440px', width: '100%', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.3)' }} onClick={(e) => e.stopPropagation()}>
+            <div className="admin-modal-card" style={{ background: '#FFFFFF', borderRadius: '16px', padding: 'clamp(1.25rem, 3vw, 2rem)', maxWidth: '440px', width: '100%', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.3)' }} onClick={(e) => e.stopPropagation()}>
               <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0B2545', marginBottom: '1.25rem' }}>Create Account</h3>
               <form onSubmit={handleCreateUserSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <div>
@@ -2312,7 +2655,7 @@ export default function AdminPortalPage() {
 
         {selectedInvoiceOrder && (
           <div style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem', overflowY: 'auto' }} onClick={() => setSelectedInvoiceOrder(null)}>
-            <div style={{ background: '#FFFFFF', borderRadius: '12px', padding: '2.5rem', maxWidth: '680px', width: '100%', maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 20px 48px rgba(0,0,0,0.25)' }} onClick={(e) => e.stopPropagation()}>
+            <div className="admin-modal-card" style={{ background: '#FFFFFF', borderRadius: '12px', padding: 'clamp(1rem, 3vw, 2.5rem)', maxWidth: '680px', width: '100%', maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 20px 48px rgba(0,0,0,0.25)' }} onClick={(e) => e.stopPropagation()}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', borderBottom: '1px solid #E2E8F0', paddingBottom: '1rem' }}>
                 <div style={{ fontSize: '0.8125rem', color: '#64748B', fontWeight: 600 }}>STUDIO TAX INVOICE / CASH RECEIPT</div>
                 <div style={{ display: 'flex', gap: '0.5rem' }}>
@@ -2322,7 +2665,7 @@ export default function AdminPortalPage() {
               </div>
 
               <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.5rem', borderBottom: '2px solid #0B2545', paddingBottom: '1rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1.5rem', borderBottom: '2px solid #0B2545', paddingBottom: '1rem', flexWrap: 'wrap', gap: '0.75rem' }}>
                   <div>
                     <h2 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0B2545', margin: '0 0 0.25rem' }}>AYUSHMAN CARDS & GRAPHICS</h2>
                     <div style={{ fontSize: '0.78125rem', color: '#64748B' }}>63, Varruchi Marg, Freeganj Ujjain • Properiter - Rajesh Saatoliya</div>
