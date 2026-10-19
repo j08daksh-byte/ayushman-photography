@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { useWishlist } from '@/context/WishlistContext';
 import ProductModal, { ProductModalItem } from './ProductModal';
 
@@ -16,7 +16,7 @@ interface CategoryProduct {
   bgGradient: string;
 }
 
-const bestSellers: CategoryProduct[] = [
+const INITIAL_BEST_SELLERS: CategoryProduct[] = [
   {
     id: 'bs-1',
     name: 'Standard Visiting Cards',
@@ -85,7 +85,7 @@ const bestSellers: CategoryProduct[] = [
   },
 ];
 
-const trending: CategoryProduct[] = [
+const INITIAL_TRENDING: CategoryProduct[] = [
   {
     id: 'tr-1',
     name: 'Executive Gold Foil Cards',
@@ -385,6 +385,80 @@ function ProductRow({
 
 export default function ExploreCategories() {
   const [selectedProduct, setSelectedProduct] = useState<ProductModalItem | null>(null);
+  const [bestSellers, setBestSellers] = useState<CategoryProduct[]>(INITIAL_BEST_SELLERS);
+  const [trending, setTrending] = useState<CategoryProduct[]>(INITIAL_TRENDING);
+
+  const loadProducts = useCallback(async () => {
+    try {
+      const res = await fetch('/api/products');
+      if (!res.ok) return;
+      const data = await res.json();
+      if (!data.success || !Array.isArray(data.products) || data.products.length === 0) return;
+
+      const liveProducts = data.products.filter((p: any) => p.isActive !== false);
+
+      setBestSellers((prev) =>
+        prev.map((item) => {
+          const match = liveProducts.find(
+            (p: any) => p.id === item.id || p.title.toLowerCase().includes(item.name.toLowerCase().slice(0, 15))
+          );
+          if (match) {
+            return {
+              ...item,
+              name: match.title,
+              badge: match.badge || item.badge,
+              price: match.price || item.price,
+              unit: match.unit || item.unit,
+              image: match.image || item.image,
+            };
+          }
+          return item;
+        })
+      );
+
+      setTrending((prev) =>
+        prev.map((item) => {
+          const match = liveProducts.find(
+            (p: any) => p.id === item.id || p.title.toLowerCase().includes(item.name.toLowerCase().slice(0, 15))
+          );
+          if (match) {
+            return {
+              ...item,
+              name: match.title,
+              badge: match.badge || item.badge,
+              price: match.price || item.price,
+              unit: match.unit || item.unit,
+              image: match.image || item.image,
+            };
+          }
+          return item;
+        })
+      );
+    } catch (err) {
+      console.warn('ExploreCategories live products load fallback:', err);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadProducts();
+
+    const handleUpdate = () => loadProducts();
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === 'ayushman_catalog_updated_at') {
+        loadProducts();
+      }
+    };
+
+    window.addEventListener('catalogUpdated', handleUpdate);
+    window.addEventListener('storage', handleStorage);
+    window.addEventListener('focus', loadProducts);
+
+    return () => {
+      window.removeEventListener('catalogUpdated', handleUpdate);
+      window.removeEventListener('storage', handleStorage);
+      window.removeEventListener('focus', loadProducts);
+    };
+  }, [loadProducts]);
 
   return (
     <section

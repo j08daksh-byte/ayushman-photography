@@ -47,7 +47,7 @@ export async function GET() {
   }
 }
 
-export async function PATCH(req: Request) {
+async function handleOrderUpdate(req: Request) {
   try {
     const admin = await checkAdmin();
     if (!admin) {
@@ -55,7 +55,8 @@ export async function PATCH(req: Request) {
     }
 
     const body = await req.json();
-    const { orderId, status, paymentStatus, notes } = body;
+    const orderId = body.orderId || body.id;
+    const { status, paymentStatus, notes } = body;
 
     if (!orderId) {
       return NextResponse.json({ error: 'Order ID is required.' }, { status: 400 });
@@ -79,6 +80,14 @@ export async function PATCH(req: Request) {
   } catch (error: any) {
     return NextResponse.json({ error: error.message || 'Failed to update order' }, { status: 500 });
   }
+}
+
+export async function PUT(req: Request) {
+  return handleOrderUpdate(req);
+}
+
+export async function PATCH(req: Request) {
+  return handleOrderUpdate(req);
 }
 
 export async function DELETE(req: Request) {

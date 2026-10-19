@@ -399,13 +399,23 @@ export default function AdminPortalPage() {
     e.preventDefault();
     try {
       const featuresArray = productForm.features
-        ? productForm.features.split('\n').map((s) => s.trim()).filter(Boolean)
+        ? (Array.isArray(productForm.features)
+            ? productForm.features
+            : productForm.features.split('\n').map((s: string) => s.trim()).filter(Boolean))
         : [];
+
+      const numPrice = Number(productForm.numericPrice) || 0;
+      const formattedPrice = `₹${numPrice.toLocaleString()}`;
 
       const payload = {
         ...productForm,
         id: editingProduct ? editingProduct.id : undefined,
+        price: formattedPrice,
+        numericPrice: numPrice,
+        badge: productForm.badge || `100 PCS @ ${formattedPrice}`,
+        unit: productForm.unit || '100 Cards',
         features: featuresArray,
+        isActive: productForm.isActive !== false,
       };
 
       const res = await fetch('/api/admin/products', {
@@ -423,7 +433,7 @@ export default function AdminPortalPage() {
           window.dispatchEvent(new CustomEvent('catalogUpdated'));
           localStorage.setItem('ayushman_catalog_updated_at', Date.now().toString());
         }
-        fetchAdminData();
+        await fetchAdminData();
       } else {
         alert(data.error || 'Failed to save product');
       }
@@ -823,7 +833,7 @@ export default function AdminPortalPage() {
     return (
       <>
         <Navbar />
-        <main style={{ minHeight: '75vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
+        <main className="admin-scope" style={{ minHeight: '75vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
           <div style={{ background: '#FFFFFF', borderRadius: '12px', padding: '2.5rem', maxWidth: '440px', width: '100%', border: '1px solid #E5E7EB', boxShadow: '0 8px 30px rgba(0,0,0,0.06)' }}>
             <h2 style={{ fontFamily: "'Inter', sans-serif", fontSize: '1.4rem', fontWeight: 800, color: '#0B2545', margin: '0 0 0.5rem' }}>
               🛡️ Admin Portal Login
@@ -847,7 +857,7 @@ export default function AdminPortalPage() {
                   value={adminEmail}
                   onChange={(e) => setAdminEmail(e.target.value)}
                   placeholder="admin@ayushmancards.com"
-                  style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #D1D5DB', fontSize: '0.875rem' }}
+                  style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #D1D5DB', fontSize: '0.875rem', color: '#0F172A', backgroundColor: '#FFFFFF' }}
                 />
               </div>
 
@@ -859,7 +869,7 @@ export default function AdminPortalPage() {
                   value={adminPassword}
                   onChange={(e) => setAdminPassword(e.target.value)}
                   placeholder="••••••••"
-                  style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #D1D5DB', fontSize: '0.875rem' }}
+                  style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #D1D5DB', fontSize: '0.875rem', color: '#0F172A', backgroundColor: '#FFFFFF' }}
                 />
               </div>
 
@@ -892,7 +902,7 @@ export default function AdminPortalPage() {
     <>
       <Navbar />
 
-      <main style={{ minHeight: '85vh', background: '#F8FAFC', padding: '2rem 1rem', fontFamily: "'Inter', sans-serif" }}>
+      <main className="admin-scope" style={{ minHeight: '85vh', background: '#F8FAFC', padding: '2rem 1rem', fontFamily: "'Inter', sans-serif" }}>
         <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
           {/* Header Bar */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
@@ -1222,12 +1232,12 @@ export default function AdminPortalPage() {
                     placeholder="Search client name, phone, order ID..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    style={{ flex: '1 1 200px', padding: '0.65rem 1rem', borderRadius: '8px', border: '1px solid #CBD5E1', fontSize: '0.84375rem' }}
+                    style={{ flex: '1 1 200px', padding: '0.65rem 1rem', borderRadius: '8px', border: '1px solid #CBD5E1', fontSize: '0.84375rem', color: '#0F172A', backgroundColor: '#FFFFFF' }}
                   />
                   <select
                     value={statusFilter}
                     onChange={(e) => setStatusFilter(e.target.value)}
-                    style={{ padding: '0.65rem 1rem', borderRadius: '8px', border: '1px solid #CBD5E1', fontSize: '0.84375rem', background: '#FFFFFF' }}
+                    style={{ padding: '0.65rem 1rem', borderRadius: '8px', border: '1px solid #CBD5E1', fontSize: '0.84375rem', background: '#FFFFFF', color: '#0F172A' }}
                   >
                     <option value="ALL">All Order Statuses ({orders.length})</option>
                     <option value="NEW">NEW</option>
@@ -1340,12 +1350,12 @@ export default function AdminPortalPage() {
                     placeholder="Search product name, finish, badge..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    style={{ flex: '1 1 200px', padding: '0.65rem 1rem', borderRadius: '8px', border: '1px solid #CBD5E1', fontSize: '0.84375rem' }}
+                    style={{ flex: '1 1 200px', padding: '0.65rem 1rem', borderRadius: '8px', border: '1px solid #CBD5E1', fontSize: '0.84375rem', color: '#0F172A', backgroundColor: '#FFFFFF' }}
                   />
                   <select
                     value={productCatFilter}
                     onChange={(e) => setProductCatFilter(e.target.value)}
-                    style={{ padding: '0.65rem 1rem', borderRadius: '8px', border: '1px solid #CBD5E1', fontSize: '0.84375rem', background: '#FFFFFF' }}
+                    style={{ padding: '0.65rem 1rem', borderRadius: '8px', border: '1px solid #CBD5E1', fontSize: '0.84375rem', background: '#FFFFFF', color: '#0F172A' }}
                   >
                     <option value="ALL">All Categories ({productsList.length})</option>
                     {categoriesList.map((cat) => (
@@ -1575,7 +1585,7 @@ export default function AdminPortalPage() {
                   placeholder="Search customer name, email, phone..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  style={{ width: '300px', padding: '0.6rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', fontSize: '0.8125rem' }}
+                  style={{ width: '300px', padding: '0.6rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', fontSize: '0.8125rem', color: '#0F172A', backgroundColor: '#FFFFFF' }}
                 />
               </div>
 
@@ -1791,31 +1801,31 @@ export default function AdminPortalPage() {
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
                     <div>
                       <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Proprietor Name *</label>
-                      <input type="text" required value={settingProprietor} onChange={(e) => setSettingProprietor(e.target.value)} placeholder="Rajesh Saatoliya" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFF' }} />
+                      <input type="text" required value={settingProprietor} onChange={(e) => setSettingProprietor(e.target.value)} placeholder="Rajesh Saatoliya" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#0F172A' }} />
                     </div>
                     <div>
                       <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Studio / Shop Name *</label>
-                      <input type="text" required value={settingShopName} onChange={(e) => setSettingShopName(e.target.value)} placeholder="Ayushman Cards & Graphics" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFF' }} />
+                      <input type="text" required value={settingShopName} onChange={(e) => setSettingShopName(e.target.value)} placeholder="Ayushman Cards & Graphics" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#0F172A' }} />
                     </div>
                   </div>
 
                   <div style={{ marginBottom: '1rem' }}>
                     <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Full Business Address * (Shown across site & footer)</label>
-                    <input type="text" required value={settingAddress} onChange={(e) => setSettingAddress(e.target.value)} placeholder="63, Varruchi Marg, Freeganj Ujjain" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFF' }} />
+                    <input type="text" required value={settingAddress} onChange={(e) => setSettingAddress(e.target.value)} placeholder="63, Varruchi Marg, Freeganj Ujjain" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#0F172A' }} />
                   </div>
 
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.75rem' }}>
                     <div>
                       <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>City</label>
-                      <input type="text" value={settingCity} onChange={(e) => setSettingCity(e.target.value)} placeholder="Ujjain" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFF' }} />
+                      <input type="text" value={settingCity} onChange={(e) => setSettingCity(e.target.value)} placeholder="Ujjain" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#0F172A' }} />
                     </div>
                     <div>
                       <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>State</label>
-                      <input type="text" value={settingState} onChange={(e) => setSettingState(e.target.value)} placeholder="Madhya Pradesh" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFF' }} />
+                      <input type="text" value={settingState} onChange={(e) => setSettingState(e.target.value)} placeholder="Madhya Pradesh" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#0F172A' }} />
                     </div>
                     <div>
                       <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Pincode</label>
-                      <input type="text" value={settingPincode} onChange={(e) => setSettingPincode(e.target.value)} placeholder="456001" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFF' }} />
+                      <input type="text" value={settingPincode} onChange={(e) => setSettingPincode(e.target.value)} placeholder="456001" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#0F172A' }} />
                     </div>
                   </div>
                 </div>
@@ -1831,33 +1841,33 @@ export default function AdminPortalPage() {
                       <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>
                         WhatsApp Number * (e.g. +919479784979)
                       </label>
-                      <input type="tel" required value={settingWhatsAppNumber} onChange={(e) => setSettingWhatsAppNumber(e.target.value)} placeholder="+919479784979" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFF' }} />
+                      <input type="tel" required value={settingWhatsAppNumber} onChange={(e) => setSettingWhatsAppNumber(e.target.value)} placeholder="+919479784979" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#0F172A' }} />
                     </div>
                     <div>
                       <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>
                         Instagram URL or Username *
                       </label>
-                      <input type="text" required value={settingInstagramUrl} onChange={(e) => setSettingInstagramUrl(e.target.value)} placeholder="https://instagram.com/ayushmancards_ujjain" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFF' }} />
+                      <input type="text" required value={settingInstagramUrl} onChange={(e) => setSettingInstagramUrl(e.target.value)} placeholder="https://instagram.com/ayushmancards_ujjain" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#0F172A' }} />
                     </div>
                   </div>
 
                   <div style={{ marginBottom: '1rem' }}>
                     <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Default WhatsApp Inquiry Message</label>
-                    <textarea rows={2} value={settingWhatsAppMsg} onChange={(e) => setSettingWhatsAppMsg(e.target.value)} placeholder="Pre-filled message when customer clicks floating WhatsApp button" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFF', fontFamily: 'inherit' }} />
+                    <textarea rows={2} value={settingWhatsAppMsg} onChange={(e) => setSettingWhatsAppMsg(e.target.value)} placeholder="Pre-filled message when customer clicks floating WhatsApp button" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#0F172A', fontFamily: 'inherit' }} />
                   </div>
 
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.75rem' }}>
                     <div>
                       <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Instagram Handle</label>
-                      <input type="text" value={settingInstagramHandle} onChange={(e) => setSettingInstagramHandle(e.target.value)} placeholder="@ayushmancards_ujjain" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFF' }} />
+                      <input type="text" value={settingInstagramHandle} onChange={(e) => setSettingInstagramHandle(e.target.value)} placeholder="@ayushmancards_ujjain" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#0F172A' }} />
                     </div>
                     <div>
                       <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Primary Phone (Call)</label>
-                      <input type="tel" value={settingPhone} onChange={(e) => setSettingPhone(e.target.value)} placeholder="9479784979" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFF' }} />
+                      <input type="tel" value={settingPhone} onChange={(e) => setSettingPhone(e.target.value)} placeholder="9479784979" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#0F172A' }} />
                     </div>
                     <div>
                       <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Secondary Phone</label>
-                      <input type="tel" value={settingPhoneSecondary} onChange={(e) => setSettingPhoneSecondary(e.target.value)} placeholder="9893022451" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFF' }} />
+                      <input type="tel" value={settingPhoneSecondary} onChange={(e) => setSettingPhoneSecondary(e.target.value)} placeholder="9893022451" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#0F172A' }} />
                     </div>
                   </div>
                 </div>
@@ -1870,19 +1880,19 @@ export default function AdminPortalPage() {
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
                     <div>
                       <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Admin Name</label>
-                      <input type="text" required value={settingName} onChange={(e) => setSettingName(e.target.value)} style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFF' }} />
+                      <input type="text" required value={settingName} onChange={(e) => setSettingName(e.target.value)} style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#0F172A' }} />
                     </div>
                     <div>
                       <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Admin Login Email</label>
-                      <input type="email" required value={settingEmail} onChange={(e) => setSettingEmail(e.target.value)} style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFF' }} />
+                      <input type="email" required value={settingEmail} onChange={(e) => setSettingEmail(e.target.value)} style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#0F172A' }} />
                     </div>
                   </div>
 
                   <div>
                     <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Change Master Password (Optional)</label>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
-                      <input type="password" placeholder="New Password" value={settingNewPassword} onChange={(e) => setSettingNewPassword(e.target.value)} style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFF' }} />
-                      <input type="password" placeholder="Confirm Password" value={settingConfirmPassword} onChange={(e) => setSettingConfirmPassword(e.target.value)} style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFF' }} />
+                      <input type="password" placeholder="New Password" value={settingNewPassword} onChange={(e) => setSettingNewPassword(e.target.value)} style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#0F172A' }} />
+                      <input type="password" placeholder="Confirm Password" value={settingConfirmPassword} onChange={(e) => setSettingConfirmPassword(e.target.value)} style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#0F172A' }} />
                     </div>
                   </div>
                 </div>
@@ -1897,49 +1907,148 @@ export default function AdminPortalPage() {
 
         {/* ═══ MODALS ═══ */}
         {showProductModal && (
-          <div style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem', overflowY: 'auto' }} onClick={() => setShowProductModal(false)}>
-            <div style={{ background: '#FFF', borderRadius: '14px', padding: '2rem', maxWidth: '580px', width: '100%', maxHeight: '90vh', overflowY: 'auto' }} onClick={(e) => e.stopPropagation()}>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#0B2545', marginBottom: '1.25rem' }}>
-                {editingProduct ? '✏️ Edit Product' : '➕ Add New Product'}
-              </h3>
-              <form onSubmit={handleSaveProductSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+          <div className="admin-modal" style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem', overflowY: 'auto' }} onClick={() => setShowProductModal(false)}>
+            <div style={{ background: '#FFFFFF', borderRadius: '16px', padding: '2rem', maxWidth: '620px', width: '100%', maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.3)' }} onClick={(e) => e.stopPropagation()}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', borderBottom: '1px solid #E2E8F0', paddingBottom: '0.75rem' }}>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0B2545', margin: 0 }}>
+                  {editingProduct ? '✏️ Edit Product' : '➕ Add New Product'}
+                </h3>
+                <button type="button" onClick={() => setShowProductModal(false)} style={{ background: '#F1F5F9', border: 'none', borderRadius: '50%', width: '32px', height: '32px', cursor: 'pointer', fontWeight: 800, color: '#64748B' }}>✕</button>
+              </div>
+
+              <form onSubmit={handleSaveProductSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.2rem' }}>Product Title *</label>
-                  <input type="text" required value={productForm.title} onChange={(e) => setProductForm({ ...productForm, title: e.target.value })} style={{ width: '100%', padding: '0.55rem', borderRadius: '6px', border: '1px solid #CBD5E1' }} />
+                  <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Product Title *</label>
+                  <input
+                    type="text"
+                    required
+                    value={productForm.title}
+                    onChange={(e) => setProductForm({ ...productForm, title: e.target.value })}
+                    placeholder="e.g. Economy Uncoated Natural Art Board Business Cards"
+                    style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', color: '#0F172A', backgroundColor: '#FFFFFF', fontSize: '0.875rem' }}
+                  />
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.85rem' }}>
                   <div>
-                    <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.2rem' }}>Category</label>
-                    <select value={productForm.category} onChange={(e) => setProductForm({ ...productForm, category: e.target.value })} style={{ width: '100%', padding: '0.55rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFF' }}>
+                    <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Category *</label>
+                    <select
+                      value={productForm.category}
+                      onChange={(e) => setProductForm({ ...productForm, category: e.target.value })}
+                      style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', backgroundColor: '#FFFFFF', color: '#0F172A', fontSize: '0.875rem' }}
+                    >
                       {categoriesList.map((cat) => (
                         <option key={cat.id} value={cat.id}>{cat.label}</option>
                       ))}
                     </select>
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.2rem' }}>Price (INR) *</label>
-                    <input type="number" required value={productForm.numericPrice} onChange={(e) => setProductForm({ ...productForm, numericPrice: parseInt(e.target.value) || 0, price: `₹${e.target.value}` })} style={{ width: '100%', padding: '0.55rem', borderRadius: '6px', border: '1px solid #CBD5E1' }} />
+                    <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Visibility Status</label>
+                    <select
+                      value={productForm.isActive ? 'true' : 'false'}
+                      onChange={(e) => setProductForm({ ...productForm, isActive: e.target.value === 'true' })}
+                      style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', backgroundColor: '#FFFFFF', color: '#0F172A', fontSize: '0.875rem' }}
+                    >
+                      <option value="true">🟢 Live on Main Store</option>
+                      <option value="false">🔴 Hidden / Draft</option>
+                    </select>
                   </div>
                 </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.85rem' }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Price in INR (₹) *</label>
+                    <input
+                      type="number"
+                      required
+                      min={1}
+                      value={productForm.numericPrice}
+                      onChange={(e) => {
+                        const val = parseInt(e.target.value) || 0;
+                        setProductForm((prev) => ({
+                          ...prev,
+                          numericPrice: val,
+                          price: `₹${val}`,
+                          badge: prev.badge && prev.badge.includes('@') ? prev.badge.replace(/@\s*₹?[0-9,]+/, `@ ₹${val}`) : prev.badge,
+                        }));
+                      }}
+                      style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', color: '#0F172A', backgroundColor: '#FFFFFF', fontSize: '0.875rem' }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Order Unit / Quantity *</label>
+                    <input
+                      type="text"
+                      value={productForm.unit}
+                      onChange={(e) => setProductForm({ ...productForm, unit: e.target.value })}
+                      placeholder="e.g. 100 Cards or 1000 Cards (₹0.55/card)"
+                      style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', color: '#0F172A', backgroundColor: '#FFFFFF', fontSize: '0.875rem' }}
+                    />
+                  </div>
+                </div>
+
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.2rem' }}>Image *</label>
+                  <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Promotional Badge (Tag shown on product card)</label>
+                  <input
+                    type="text"
+                    value={productForm.badge}
+                    onChange={(e) => setProductForm({ ...productForm, badge: e.target.value })}
+                    placeholder="e.g. 1000 PCS @ ₹550"
+                    style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', color: '#0F172A', backgroundColor: '#FFFFFF', fontSize: '0.875rem' }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Image URL & Cloud Upload *</label>
                   <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                    <label style={{ padding: '0.55rem 1rem', background: '#0B2545', color: '#FFF', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 700, cursor: isUploadingImage ? 'wait' : 'pointer' }}>
+                    <label style={{ padding: '0.65rem 1rem', background: '#0B2545', color: '#FFF', borderRadius: '8px', fontSize: '0.78125rem', fontWeight: 700, cursor: isUploadingImage ? 'wait' : 'pointer', whiteSpace: 'nowrap' }}>
                       📁 {isUploadingImage ? 'Uploading...' : 'Upload Image'}
                       <input type="file" accept="image/*" onChange={handleProductImageUpload} disabled={isUploadingImage} style={{ display: 'none' }} />
                     </label>
-                    <input type="text" value={productForm.image} onChange={(e) => setProductForm({ ...productForm, image: e.target.value })} style={{ flex: 1, padding: '0.55rem', borderRadius: '6px', border: '1px solid #CBD5E1' }} />
+                    <input
+                      type="text"
+                      required
+                      value={productForm.image}
+                      onChange={(e) => setProductForm({ ...productForm, image: e.target.value })}
+                      placeholder="/images/wedding/scroll_royal_blue_velvet.png or CDN URL"
+                      style={{ flex: 1, padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', color: '#0F172A', backgroundColor: '#FFFFFF', fontSize: '0.875rem' }}
+                    />
                   </div>
+                  {productForm.image && (
+                    <div style={{ marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <img src={productForm.image} alt="Preview" style={{ width: '48px', height: '48px', objectFit: 'cover', borderRadius: '6px', border: '1px solid #E2E8F0' }} onError={(e) => { (e.target as any).style.display = 'none'; }} />
+                      <span style={{ fontSize: '0.725rem', color: '#64748B' }}>Preview</span>
+                    </div>
+                  )}
                 </div>
+
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.2rem' }}>Description</label>
-                  <textarea rows={2} value={productForm.description} onChange={(e) => setProductForm({ ...productForm, description: e.target.value })} style={{ width: '100%', padding: '0.55rem', borderRadius: '6px', border: '1px solid #CBD5E1', fontFamily: 'inherit' }} />
+                  <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Product Description</label>
+                  <textarea
+                    rows={2}
+                    value={productForm.description}
+                    onChange={(e) => setProductForm({ ...productForm, description: e.target.value })}
+                    placeholder="Editorial description of materials, finishes, paper weights..."
+                    style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', color: '#0F172A', backgroundColor: '#FFFFFF', fontSize: '0.875rem', fontFamily: 'inherit' }}
+                  />
                 </div>
-                <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
-                  <button type="submit" style={{ flex: 1, padding: '0.75rem', borderRadius: '999px', background: '#059669', color: '#FFF', border: 'none', fontWeight: 700, cursor: 'pointer' }}>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Features & Bullet Points (One per line)</label>
+                  <textarea
+                    rows={3}
+                    value={productForm.features}
+                    onChange={(e) => setProductForm({ ...productForm, features: e.target.value })}
+                    placeholder="Natural Writable Surface&#10;Crisp HD Offset Typography&#10;Lowest Unit Cost for Bulk"
+                    style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', color: '#0F172A', backgroundColor: '#FFFFFF', fontSize: '0.875rem', fontFamily: 'inherit' }}
+                  />
+                </div>
+
+                <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.5rem' }}>
+                  <button type="submit" style={{ flex: 1, padding: '0.85rem', borderRadius: '999px', background: '#059669', color: '#FFFFFF', border: 'none', fontWeight: 800, fontSize: '0.925rem', cursor: 'pointer', boxShadow: '0 4px 12px rgba(5,150,105,0.25)' }}>
                     {editingProduct ? '💾 Update Product' : '✓ Create Product'}
                   </button>
-                  <button type="button" onClick={() => setShowProductModal(false)} style={{ padding: '0.75rem 1.25rem', borderRadius: '999px', border: '1px solid #CBD5E1', background: '#FFF', cursor: 'pointer' }}>
+                  <button type="button" onClick={() => setShowProductModal(false)} style={{ padding: '0.85rem 1.5rem', borderRadius: '999px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#475569', fontWeight: 700, cursor: 'pointer' }}>
                     Cancel
                   </button>
                 </div>
@@ -1949,29 +2058,49 @@ export default function AdminPortalPage() {
         )}
 
         {showCategoryModal && (
-          <div style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.65)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }} onClick={() => setShowCategoryModal(false)}>
-            <div style={{ background: '#FFF', borderRadius: '14px', padding: '2rem', maxWidth: '440px', width: '100%' }} onClick={(e) => e.stopPropagation()}>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#0B2545', marginBottom: '1rem' }}>
+          <div className="admin-modal" style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.65)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }} onClick={() => setShowCategoryModal(false)}>
+            <div style={{ background: '#FFFFFF', borderRadius: '16px', padding: '2rem', maxWidth: '440px', width: '100%', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.3)' }} onClick={(e) => e.stopPropagation()}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0B2545', marginBottom: '1.25rem' }}>
                 {editingCategory ? '✏️ Edit Category' : '➕ Add New Category'}
               </h3>
-              <form onSubmit={handleSaveCategorySubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+              <form onSubmit={handleSaveCategorySubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.2rem' }}>Category ID *</label>
-                  <input type="text" required disabled={!!editingCategory} value={categoryForm.id} onChange={(e) => setCategoryForm({ ...categoryForm, id: e.target.value })} style={{ width: '100%', padding: '0.55rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: editingCategory ? '#F1F5F9' : '#FFF' }} />
+                  <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Category ID *</label>
+                  <input
+                    type="text"
+                    required
+                    disabled={!!editingCategory}
+                    value={categoryForm.id}
+                    onChange={(e) => setCategoryForm({ ...categoryForm, id: e.target.value })}
+                    style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', background: editingCategory ? '#F1F5F9' : '#FFFFFF', color: '#0F172A', fontSize: '0.875rem' }}
+                  />
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.2rem' }}>Label *</label>
-                  <input type="text" required value={categoryForm.label} onChange={(e) => setCategoryForm({ ...categoryForm, label: e.target.value })} style={{ width: '100%', padding: '0.55rem', borderRadius: '6px', border: '1px solid #CBD5E1' }} />
+                  <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Label *</label>
+                  <input
+                    type="text"
+                    required
+                    value={categoryForm.label}
+                    onChange={(e) => setCategoryForm({ ...categoryForm, label: e.target.value })}
+                    placeholder="e.g. 💍 Wedding Invitation Cards"
+                    style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', color: '#0F172A', backgroundColor: '#FFFFFF', fontSize: '0.875rem' }}
+                  />
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.2rem' }}>Icon Emoji</label>
-                  <input type="text" value={categoryForm.icon} onChange={(e) => setCategoryForm({ ...categoryForm, icon: e.target.value })} style={{ width: '100%', padding: '0.55rem', borderRadius: '6px', border: '1px solid #CBD5E1' }} />
+                  <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Icon Emoji</label>
+                  <input
+                    type="text"
+                    value={categoryForm.icon}
+                    onChange={(e) => setCategoryForm({ ...categoryForm, icon: e.target.value })}
+                    placeholder="e.g. 💍 or 💳"
+                    style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', color: '#0F172A', backgroundColor: '#FFFFFF', fontSize: '0.875rem' }}
+                  />
                 </div>
-                <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.75rem' }}>
-                  <button type="submit" style={{ flex: 1, padding: '0.75rem', borderRadius: '999px', background: '#059669', color: '#FFF', border: 'none', fontWeight: 700, cursor: 'pointer' }}>
+                <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.5rem' }}>
+                  <button type="submit" style={{ flex: 1, padding: '0.85rem', borderRadius: '999px', background: '#059669', color: '#FFFFFF', border: 'none', fontWeight: 800, fontSize: '0.925rem', cursor: 'pointer' }}>
                     {editingCategory ? '💾 Update' : '✓ Save Category'}
                   </button>
-                  <button type="button" onClick={() => setShowCategoryModal(false)} style={{ padding: '0.75rem 1.25rem', borderRadius: '999px', border: '1px solid #CBD5E1', background: '#FFF', cursor: 'pointer' }}>
+                  <button type="button" onClick={() => setShowCategoryModal(false)} style={{ padding: '0.85rem 1.5rem', borderRadius: '999px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#475569', fontWeight: 700, cursor: 'pointer' }}>
                     Cancel
                   </button>
                 </div>
@@ -1981,49 +2110,78 @@ export default function AdminPortalPage() {
         )}
 
         {showBannerModal && (
-          <div style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem', overflowY: 'auto' }} onClick={() => setShowBannerModal(false)}>
-            <div style={{ background: '#FFF', borderRadius: '14px', padding: '2rem', maxWidth: '580px', width: '100%', maxHeight: '90vh', overflowY: 'auto' }} onClick={(e) => e.stopPropagation()}>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0B2545', marginBottom: '1rem' }}>
+          <div className="admin-modal" style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem', overflowY: 'auto' }} onClick={() => setShowBannerModal(false)}>
+            <div style={{ background: '#FFFFFF', borderRadius: '16px', padding: '2rem', maxWidth: '580px', width: '100%', maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.3)' }} onClick={(e) => e.stopPropagation()}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0B2545', marginBottom: '1.25rem' }}>
                 {editingBanner ? '✏️ Edit Hero Banner' : '➕ Create New Hero Banner'}
               </h3>
               <form onSubmit={handleSaveBannerSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.35rem' }}>Banner Image * (1920x600 px recommended)</label>
                   <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                    <label style={{ padding: '0.55rem 1rem', background: '#0B2545', color: '#FFF', borderRadius: '6px', fontSize: '0.8125rem', fontWeight: 700, cursor: isUploadingBannerImg ? 'wait' : 'pointer' }}>
+                    <label style={{ padding: '0.65rem 1rem', background: '#0B2545', color: '#FFF', borderRadius: '8px', fontSize: '0.8125rem', fontWeight: 700, cursor: isUploadingBannerImg ? 'wait' : 'pointer', whiteSpace: 'nowrap' }}>
                       📁 {isUploadingBannerImg ? 'Uploading...' : 'Upload Image'}
                       <input type="file" accept="image/*" onChange={handleBannerImageUpload} disabled={isUploadingBannerImg} style={{ display: 'none' }} />
                     </label>
-                    <input type="text" required value={bannerForm.image} onChange={(e) => setBannerForm({ ...bannerForm, image: e.target.value })} style={{ flex: 1, padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1' }} />
+                    <input
+                      type="text"
+                      required
+                      value={bannerForm.image}
+                      onChange={(e) => setBannerForm({ ...bannerForm, image: e.target.value })}
+                      style={{ flex: 1, padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', color: '#0F172A', backgroundColor: '#FFFFFF', fontSize: '0.875rem' }}
+                    />
                   </div>
                 </div>
 
                 <div>
                   <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Headline Title</label>
-                  <input type="text" value={bannerForm.title} onChange={(e) => setBannerForm({ ...bannerForm, title: e.target.value })} placeholder="e.g. Royal Velvet Box Wedding Invitations" style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1' }} />
+                  <input
+                    type="text"
+                    value={bannerForm.title}
+                    onChange={(e) => setBannerForm({ ...bannerForm, title: e.target.value })}
+                    placeholder="e.g. Royal Velvet Box Wedding Invitations"
+                    style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', color: '#0F172A', backgroundColor: '#FFFFFF', fontSize: '0.875rem' }}
+                  />
                 </div>
 
                 <div>
                   <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Subtitle</label>
-                  <textarea rows={2} value={bannerForm.subtitle} onChange={(e) => setBannerForm({ ...bannerForm, subtitle: e.target.value })} style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', fontFamily: 'inherit' }} />
+                  <textarea
+                    rows={2}
+                    value={bannerForm.subtitle}
+                    onChange={(e) => setBannerForm({ ...bannerForm, subtitle: e.target.value })}
+                    style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', color: '#0F172A', backgroundColor: '#FFFFFF', fontSize: '0.875rem', fontFamily: 'inherit' }}
+                  />
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '0.75rem' }}>
                   <div>
                     <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Target Destination Link *</label>
-                    <input type="text" required value={bannerForm.link} onChange={(e) => setBannerForm({ ...bannerForm, link: e.target.value })} style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1' }} />
+                    <input
+                      type="text"
+                      required
+                      value={bannerForm.link}
+                      onChange={(e) => setBannerForm({ ...bannerForm, link: e.target.value })}
+                      style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', color: '#0F172A', backgroundColor: '#FFFFFF', fontSize: '0.875rem' }}
+                    />
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Order</label>
-                    <input type="number" min={1} value={bannerForm.displayOrder} onChange={(e) => setBannerForm({ ...bannerForm, displayOrder: parseInt(e.target.value) || 1 })} style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1' }} />
+                    <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Display Order</label>
+                    <input
+                      type="number"
+                      min={1}
+                      value={bannerForm.displayOrder}
+                      onChange={(e) => setBannerForm({ ...bannerForm, displayOrder: parseInt(e.target.value) || 1 })}
+                      style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', color: '#0F172A', backgroundColor: '#FFFFFF', fontSize: '0.875rem' }}
+                    />
                   </div>
                 </div>
 
-                <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.75rem' }}>
-                  <button type="submit" style={{ flex: 1, padding: '0.75rem', borderRadius: '999px', background: '#059669', color: '#FFF', border: 'none', fontWeight: 700, cursor: 'pointer' }}>
+                <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.75rem' }}>
+                  <button type="submit" style={{ flex: 1, padding: '0.85rem', borderRadius: '999px', background: '#059669', color: '#FFFFFF', border: 'none', fontWeight: 800, fontSize: '0.925rem', cursor: 'pointer' }}>
                     {editingBanner ? '💾 Save Changes' : '✓ Publish Hero Banner'}
                   </button>
-                  <button type="button" onClick={() => setShowBannerModal(false)} style={{ padding: '0.75rem 1.25rem', borderRadius: '999px', border: '1px solid #CBD5E1', background: '#FFF', cursor: 'pointer' }}>
+                  <button type="button" onClick={() => setShowBannerModal(false)} style={{ padding: '0.85rem 1.5rem', borderRadius: '999px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#475569', fontWeight: 700, cursor: 'pointer' }}>
                     Cancel
                   </button>
                 </div>
@@ -2033,38 +2191,62 @@ export default function AdminPortalPage() {
         )}
 
         {showCouponModal && (
-          <div style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.65)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }} onClick={() => setShowCouponModal(false)}>
-            <div style={{ background: '#FFF', borderRadius: '14px', padding: '2rem', maxWidth: '440px', width: '100%' }} onClick={(e) => e.stopPropagation()}>
+          <div className="admin-modal" style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.65)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }} onClick={() => setShowCouponModal(false)}>
+            <div style={{ background: '#FFFFFF', borderRadius: '16px', padding: '2rem', maxWidth: '440px', width: '100%', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.3)' }} onClick={(e) => e.stopPropagation()}>
               <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0B2545', marginBottom: '1.25rem' }}>
                 🏷️ Create Discount Coupon
               </h3>
-              <form onSubmit={handleSaveCouponSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+              <form onSubmit={handleSaveCouponSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Coupon Code *</label>
-                  <input type="text" required placeholder="e.g. SAVE10" value={couponForm.code} onChange={(e) => setCouponForm({ ...couponForm, code: e.target.value })} style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', textTransform: 'uppercase', fontWeight: 700 }} />
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. SAVE10"
+                    value={couponForm.code}
+                    onChange={(e) => setCouponForm({ ...couponForm, code: e.target.value })}
+                    style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', color: '#0F172A', backgroundColor: '#FFFFFF', textTransform: 'uppercase', fontWeight: 700, fontSize: '0.875rem' }}
+                  />
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
                   <div>
                     <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Type</label>
-                    <select value={couponForm.discountType} onChange={(e) => setCouponForm({ ...couponForm, discountType: e.target.value as any })} style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFF' }}>
+                    <select
+                      value={couponForm.discountType}
+                      onChange={(e) => setCouponForm({ ...couponForm, discountType: e.target.value as any })}
+                      style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#0F172A', fontSize: '0.875rem' }}
+                    >
                       <option value="PERCENT">% Percentage</option>
                       <option value="FLAT">₹ Flat Amount</option>
                     </select>
                   </div>
                   <div>
                     <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Value</label>
-                    <input type="number" required min={1} value={couponForm.discountValue} onChange={(e) => setCouponForm({ ...couponForm, discountValue: parseInt(e.target.value) || 0 })} style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1' }} />
+                    <input
+                      type="number"
+                      required
+                      min={1}
+                      value={couponForm.discountValue}
+                      onChange={(e) => setCouponForm({ ...couponForm, discountValue: parseInt(e.target.value) || 0 })}
+                      style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', color: '#0F172A', backgroundColor: '#FFFFFF', fontSize: '0.875rem' }}
+                    />
                   </div>
                 </div>
                 <div>
                   <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Min Order Amount (INR)</label>
-                  <input type="number" min={0} value={couponForm.minOrderAmount} onChange={(e) => setCouponForm({ ...couponForm, minOrderAmount: parseInt(e.target.value) || 0 })} style={{ width: '100%', padding: '0.55rem 0.75rem', borderRadius: '6px', border: '1px solid #CBD5E1' }} />
+                  <input
+                    type="number"
+                    min={0}
+                    value={couponForm.minOrderAmount}
+                    onChange={(e) => setCouponForm({ ...couponForm, minOrderAmount: parseInt(e.target.value) || 0 })}
+                    style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', color: '#0F172A', backgroundColor: '#FFFFFF', fontSize: '0.875rem' }}
+                  />
                 </div>
-                <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
-                  <button type="submit" style={{ flex: 1, padding: '0.75rem', borderRadius: '999px', background: '#0B2545', color: '#FFF', border: 'none', fontWeight: 700, cursor: 'pointer' }}>
+                <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.5rem' }}>
+                  <button type="submit" style={{ flex: 1, padding: '0.85rem', borderRadius: '999px', background: '#0B2545', color: '#FFFFFF', border: 'none', fontWeight: 800, fontSize: '0.925rem', cursor: 'pointer' }}>
                     Create Coupon
                   </button>
-                  <button type="button" onClick={() => setShowCouponModal(false)} style={{ padding: '0.75rem 1.25rem', borderRadius: '999px', border: '1px solid #CBD5E1', background: '#FFF', cursor: 'pointer' }}>
+                  <button type="button" onClick={() => setShowCouponModal(false)} style={{ padding: '0.85rem 1.5rem', borderRadius: '999px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#475569', fontWeight: 700, cursor: 'pointer' }}>
                     Cancel
                   </button>
                 </div>
@@ -2074,32 +2256,54 @@ export default function AdminPortalPage() {
         )}
 
         {showAddUserModal && (
-          <div style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }} onClick={() => setShowAddUserModal(false)}>
-            <div style={{ background: '#FFF', borderRadius: '12px', padding: '1.75rem', maxWidth: '420px', width: '100%' }} onClick={(e) => e.stopPropagation()}>
-              <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#0B2545', marginBottom: '1rem' }}>Create Account</h3>
-              <form onSubmit={handleCreateUserSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+          <div className="admin-modal" style={{ position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(0,0,0,0.6)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }} onClick={() => setShowAddUserModal(false)}>
+            <div style={{ background: '#FFFFFF', borderRadius: '16px', padding: '2rem', maxWidth: '440px', width: '100%', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.3)' }} onClick={(e) => e.stopPropagation()}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0B2545', marginBottom: '1.25rem' }}>Create Account</h3>
+              <form onSubmit={handleCreateUserSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.2rem' }}>Full Name *</label>
-                  <input type="text" required value={newUser.name} onChange={(e) => setNewUser({ ...newUser, name: e.target.value })} style={{ width: '100%', padding: '0.55rem', borderRadius: '6px', border: '1px solid #CBD5E1' }} />
+                  <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Full Name *</label>
+                  <input
+                    type="text"
+                    required
+                    value={newUser.name}
+                    onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
+                    style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', color: '#0F172A', backgroundColor: '#FFFFFF', fontSize: '0.875rem' }}
+                  />
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.2rem' }}>Email Address *</label>
-                  <input type="email" required value={newUser.email} onChange={(e) => setNewUser({ ...newUser, email: e.target.value })} style={{ width: '100%', padding: '0.55rem', borderRadius: '6px', border: '1px solid #CBD5E1' }} />
+                  <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Email Address *</label>
+                  <input
+                    type="email"
+                    required
+                    value={newUser.email}
+                    onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+                    style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', color: '#0F172A', backgroundColor: '#FFFFFF', fontSize: '0.875rem' }}
+                  />
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.2rem' }}>Password *</label>
-                  <input type="password" required value={newUser.password} onChange={(e) => setNewUser({ ...newUser, password: e.target.value })} style={{ width: '100%', padding: '0.55rem', borderRadius: '6px', border: '1px solid #CBD5E1' }} />
+                  <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Password *</label>
+                  <input
+                    type="password"
+                    required
+                    value={newUser.password}
+                    onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
+                    style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', color: '#0F172A', backgroundColor: '#FFFFFF', fontSize: '0.875rem' }}
+                  />
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.2rem' }}>Role</label>
-                  <select value={newUser.role} onChange={(e) => setNewUser({ ...newUser, role: e.target.value })} style={{ width: '100%', padding: '0.55rem', borderRadius: '6px', border: '1px solid #CBD5E1', background: '#FFF' }}>
+                  <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Role</label>
+                  <select
+                    value={newUser.role}
+                    onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
+                    style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#0F172A', fontSize: '0.875rem' }}
+                  >
                     <option value="CLIENT">CLIENT</option>
                     <option value="ADMIN">ADMIN</option>
                   </select>
                 </div>
-                <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
-                  <button type="submit" style={{ flex: 1, padding: '0.7rem', borderRadius: '999px', background: '#0B2545', color: '#FFF', border: 'none', fontWeight: 700, cursor: 'pointer' }}>Create Account</button>
-                  <button type="button" onClick={() => setShowAddUserModal(false)} style={{ padding: '0.7rem 1rem', borderRadius: '999px', border: '1px solid #CBD5E1', background: '#FFF', cursor: 'pointer' }}>Cancel</button>
+                <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.5rem' }}>
+                  <button type="submit" style={{ flex: 1, padding: '0.85rem', borderRadius: '999px', background: '#0B2545', color: '#FFFFFF', border: 'none', fontWeight: 800, fontSize: '0.925rem', cursor: 'pointer' }}>Create Account</button>
+                  <button type="button" onClick={() => setShowAddUserModal(false)} style={{ padding: '0.85rem 1.5rem', borderRadius: '999px', border: '1px solid #CBD5E1', background: '#FFFFFF', color: '#475569', fontWeight: 700, cursor: 'pointer' }}>Cancel</button>
                 </div>
               </form>
             </div>

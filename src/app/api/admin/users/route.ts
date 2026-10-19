@@ -85,7 +85,8 @@ export async function PATCH(req: Request) {
     }
 
     const body = await req.json();
-    const { userId, role, name, phone } = body;
+    const userId = body.userId || body.id;
+    const { role, name, phone } = body;
 
     if (!userId) {
       return NextResponse.json({ error: 'User ID is required.' }, { status: 400 });
@@ -111,6 +112,10 @@ export async function PATCH(req: Request) {
   } catch (error: any) {
     return NextResponse.json({ error: error.message || 'Failed to update user' }, { status: 500 });
   }
+}
+
+export async function PUT(req: Request) {
+  return PATCH(req);
 }
 
 export async function DELETE(req: Request) {

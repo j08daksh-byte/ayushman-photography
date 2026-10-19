@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect, useCallback } from 'react';
 import Navbar from '@/components/Navbar';
 import HeroBanner from '@/components/HeroBanner';
 import Hero from '@/components/Hero';
@@ -14,7 +15,7 @@ import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 
 // Shop by Shapes — Visiting Card variants
-const cardShapes: ProductItem[] = [
+const INITIAL_CARD_SHAPES: ProductItem[] = [
   {
     id: 'shape-1',
     title: 'Standard Visiting Cards',
@@ -90,7 +91,7 @@ const cardShapes: ProductItem[] = [
 ];
 
 // Shop by Paper & Texture
-const cardTextures: ProductItem[] = [
+const INITIAL_CARD_TEXTURES: ProductItem[] = [
   {
     id: 'tex-1',
     title: '300 GSM Matte Finish Visiting Cards',
@@ -166,7 +167,7 @@ const cardTextures: ProductItem[] = [
 ];
 
 // Wedding & Ceremony Invitations
-const weddingCards: ProductItem[] = [
+const INITIAL_WEDDING_CARDS: ProductItem[] = [
   {
     id: 'wed-1',
     title: 'Royal Velvet Box & Gold Shahi Scroll Card',
@@ -242,6 +243,103 @@ const weddingCards: ProductItem[] = [
 ];
 
 export default function Home() {
+  const [cardShapes, setCardShapes] = useState<ProductItem[]>(INITIAL_CARD_SHAPES);
+  const [cardTextures, setCardTextures] = useState<ProductItem[]>(INITIAL_CARD_TEXTURES);
+  const [weddingCards, setWeddingCards] = useState<ProductItem[]>(INITIAL_WEDDING_CARDS);
+
+  const loadProducts = useCallback(async () => {
+    try {
+      const res = await fetch('/api/products');
+      if (!res.ok) return;
+      const data = await res.json();
+      if (!data.success || !Array.isArray(data.products) || data.products.length === 0) return;
+
+      const liveProducts = data.products.filter((p: any) => p.isActive !== false);
+
+      // 1. Update Wedding Cards carousel with live products from Wedding Cards category
+      const liveWedding = liveProducts.filter((p: any) => p.category === 'Wedding Cards');
+      if (liveWedding.length > 0) {
+        const bgGradients = ['#0B2545', '#EBF5FA', '#FFFDF0', '#F0F7F2', '#FDF2F2', '#F5F2ED', '#F4F0F9', '#FAF0E6'];
+        const mappedWedding: ProductItem[] = liveWedding.map((p: any, idx: number) => ({
+          id: p.id,
+          title: p.title,
+          badge: p.badge || (p.price ? `Starts @ ${p.price}` : undefined),
+          price: p.price,
+          unit: p.unit || (p.price ? `${p.price} each` : undefined),
+          category: p.category,
+          image: p.image,
+          rating: p.rating || 4.9,
+          reviews: p.reviews || 500,
+          bgGradient: bgGradients[idx % bgGradients.length],
+        }));
+        setWeddingCards(mappedWedding);
+      }
+
+      // 2. Update Card Shapes with matching live products
+      setCardShapes((prev) =>
+        prev.map((item) => {
+          const match = liveProducts.find(
+            (p: any) => p.id === item.id || p.title.toLowerCase().includes(item.title.toLowerCase().slice(0, 15))
+          );
+          if (match) {
+            return {
+              ...item,
+              title: match.title,
+              badge: match.badge || item.badge,
+              price: match.price || item.price,
+              unit: match.unit || item.unit,
+              image: match.image || item.image,
+            };
+          }
+          return item;
+        })
+      );
+
+      // 3. Update Card Textures with matching live products
+      setCardTextures((prev) =>
+        prev.map((item) => {
+          const match = liveProducts.find(
+            (p: any) => p.id === item.id || p.title.toLowerCase().includes(item.title.toLowerCase().slice(0, 15))
+          );
+          if (match) {
+            return {
+              ...item,
+              title: match.title,
+              badge: match.badge || item.badge,
+              price: match.price || item.price,
+              unit: match.unit || item.unit,
+              image: match.image || item.image,
+            };
+          }
+          return item;
+        })
+      );
+    } catch (err) {
+      console.warn('Home live product load fallback:', err);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadProducts();
+
+    const handleUpdate = () => loadProducts();
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === 'ayushman_catalog_updated_at') {
+        loadProducts();
+      }
+    };
+
+    window.addEventListener('catalogUpdated', handleUpdate);
+    window.addEventListener('storage', handleStorage);
+    window.addEventListener('focus', loadProducts);
+
+    return () => {
+      window.removeEventListener('catalogUpdated', handleUpdate);
+      window.removeEventListener('storage', handleStorage);
+      window.removeEventListener('focus', loadProducts);
+    };
+  }, [loadProducts]);
+
   return (
     <>
       <Navbar />

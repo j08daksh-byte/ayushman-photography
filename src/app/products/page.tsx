@@ -873,7 +873,7 @@ function CatalogContent() {
           /* Grouped by Distinct Categories View */
           <div style={{ display: 'flex', flexDirection: 'column', gap: '3rem' }}>
             {distinctCategories.map((catDef) => {
-              const categoryItems = CATALOG_ITEMS.filter((i) => i.category === catDef.id);
+              const categoryItems = catalogItems.filter((i) => i.category === catDef.id);
               if (categoryItems.length === 0) return null;
 
               return (

@@ -148,11 +148,14 @@ export const DEFAULT_SETTINGS: SettingsRecord = {
   updatedAt: '2025-01-01T00:00:00.000Z',
 };
 
-const DB_FILE_PATH = path.join(os.tmpdir(), 'ayushman_print_db.json');
+const PRIMARY_DB_PATH = path.resolve(process.cwd(), 'data_store.json');
+const BACKUP_DB_PATH = path.join(os.tmpdir(), 'ayushman_print_db.json');
 
 declare global {
   // eslint-disable-next-line no-var
   var __ayushmanInMemoryDB: DBStore | undefined;
+  // eslint-disable-next-line no-var
+  var __ayushmanDBMtime: number | undefined;
 }
 
 export const INITIAL_CATEGORIES: CategoryRecord[] = [
@@ -971,60 +974,90 @@ const DEFAULT_STORE: DBStore = {
   settings: DEFAULT_SETTINGS,
 };
 
+function getValidDBFilePath(): string | null {
+  if (fs.existsSync(PRIMARY_DB_PATH)) return PRIMARY_DB_PATH;
+  if (fs.existsSync(BACKUP_DB_PATH)) return BACKUP_DB_PATH;
+  return null;
+}
+
 function readStore(): DBStore {
+  const filePath = getValidDBFilePath();
+
+  if (filePath) {
+    try {
+      const stat = fs.statSync(filePath);
+      if (globalThis.__ayushmanInMemoryDB && globalThis.__ayushmanDBMtime && stat.mtimeMs <= globalThis.__ayushmanDBMtime) {
+        return globalThis.__ayushmanInMemoryDB;
+      }
+
+      const content = fs.readFileSync(filePath, 'utf-8');
+      const parsed = JSON.parse(content);
+      if (parsed) {
+        const store: DBStore = {
+          users: Array.isArray(parsed.users) && parsed.users.length > 0 ? parsed.users : [...DEFAULT_STORE.users],
+          bookings: Array.isArray(parsed.bookings) ? parsed.bookings : [],
+          inquiries: Array.isArray(parsed.inquiries) ? parsed.inquiries : [],
+          categories: Array.isArray(parsed.categories) && parsed.categories.length > 0 ? parsed.categories : [...DEFAULT_STORE.categories],
+          products: Array.isArray(parsed.products) && parsed.products.length > 0 ? parsed.products : [...DEFAULT_STORE.products],
+          banners: Array.isArray(parsed.banners) && parsed.banners.length > 0 ? parsed.banners : [...DEFAULT_STORE.banners],
+          settings: parsed.settings ? { ...DEFAULT_SETTINGS, ...parsed.settings } : { ...DEFAULT_SETTINGS },
+        };
+
+        // Ensure default admin exists if store has no admin
+        if (!store.users.some((u) => u.email.toLowerCase().trim() === 'admin@ayushmancards.com')) {
+          store.users.push(DEFAULT_STORE.users[0]);
+        }
+
+        globalThis.__ayushmanInMemoryDB = store;
+        globalThis.__ayushmanDBMtime = stat.mtimeMs;
+        return store;
+      }
+    } catch (err) {
+      console.warn('Warning reading persistent DB store:', err);
+    }
+  }
+
   if (globalThis.__ayushmanInMemoryDB) {
     return globalThis.__ayushmanInMemoryDB;
   }
 
-  let store: DBStore = DEFAULT_STORE;
+  const initialStore: DBStore = {
+    users: [...DEFAULT_STORE.users],
+    bookings: [],
+    inquiries: [],
+    categories: [...DEFAULT_STORE.categories],
+    products: [...DEFAULT_STORE.products],
+    banners: [...DEFAULT_STORE.banners],
+    settings: { ...DEFAULT_SETTINGS },
+  };
 
-  try {
-    if (fs.existsSync(DB_FILE_PATH)) {
-      const content = fs.readFileSync(DB_FILE_PATH, 'utf-8');
-      const parsed = JSON.parse(content);
-      if (parsed && Array.isArray(parsed.users) && parsed.users.length > 0) {
-        store = {
-          users: parsed.users || DEFAULT_STORE.users,
-          bookings: parsed.bookings || [],
-          inquiries: parsed.inquiries || [],
-          categories: (parsed.categories && parsed.categories.length > 0) ? parsed.categories : DEFAULT_STORE.categories,
-          products: (parsed.products && parsed.products.length > 0) ? parsed.products : DEFAULT_STORE.products,
-          banners: (parsed.banners && parsed.banners.length > 0) ? parsed.banners : DEFAULT_STORE.banners,
-          settings: parsed.settings ? { ...DEFAULT_SETTINGS, ...parsed.settings } : DEFAULT_SETTINGS,
-        };
-      }
-    }
-  } catch (err) {
-    console.warn('Warning reading DB store:', err);
-  }
-
-  // Ensure default admin exists if store has no admin
-  if (!store.users.some((u) => u.email.toLowerCase().trim() === 'admin@ayushmancards.com')) {
-    store.users.push(DEFAULT_STORE.users[0]);
-  }
-
-  // Ensure categories, products, banners, and settings are populated
-  if (!store.categories || store.categories.length === 0) {
-    store.categories = DEFAULT_STORE.categories;
-  }
-  if (!store.products || store.products.length === 0) {
-    store.products = DEFAULT_STORE.products;
-  }
-  if (!store.banners || store.banners.length === 0) {
-    store.banners = DEFAULT_STORE.banners;
-  }
-  if (!store.settings) {
-    store.settings = DEFAULT_SETTINGS;
-  }
-
-  globalThis.__ayushmanInMemoryDB = store;
-  return store;
+  globalThis.__ayushmanInMemoryDB = initialStore;
+  writeStore(initialStore);
+  return initialStore;
 }
 
 function writeStore(store: DBStore) {
   globalThis.__ayushmanInMemoryDB = store;
+  const jsonContent = JSON.stringify(store, null, 2);
+  let written = false;
+
+  // 1. Try writing to primary project root data_store.json (persistent across local restarts & commits)
   try {
-    fs.writeFileSync(DB_FILE_PATH, JSON.stringify(store, null, 2), 'utf-8');
+    fs.writeFileSync(PRIMARY_DB_PATH, jsonContent, 'utf-8');
+    const stat = fs.statSync(PRIMARY_DB_PATH);
+    globalThis.__ayushmanDBMtime = stat.mtimeMs;
+    written = true;
+  } catch {
+    // Read-only filesystem in Vercel lambda production
+  }
+
+  // 2. Also write to os.tmpdir() backup
+  try {
+    fs.writeFileSync(BACKUP_DB_PATH, jsonContent, 'utf-8');
+    if (!written) {
+      const stat = fs.statSync(BACKUP_DB_PATH);
+      globalThis.__ayushmanDBMtime = stat.mtimeMs;
+    }
   } catch (err) {
     console.warn('DB file write warning (using in-memory store):', err);
   }
