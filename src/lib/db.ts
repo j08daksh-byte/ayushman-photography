@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import os from 'os';
+// Turso DB import — lazy to avoid circular dependency issues
+// isTursoConfigured() and tursoDb are imported at the bottom after all classes are defined
 
 export interface UserRecord {
   id: string;
@@ -1590,7 +1592,15 @@ class SettingsClient {
   }
 }
 
-export const db: any = {
+// ---------------------------------------------------------------------------
+// DB Router — uses Turso cloud DB when TURSO_DATABASE_URL is set,
+// otherwise falls back to the file-based JSON store (local dev).
+// ---------------------------------------------------------------------------
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const { tursoDb, isTursoConfigured } = require('./turso-db');
+
+const _fileDb = {
   user: new UserClient(),
   booking: new BookingClient(),
   inquiry: new InquiryClient(),
@@ -1599,4 +1609,6 @@ export const db: any = {
   banner: new BannerClient(),
   settings: new SettingsClient(),
 };
+
+export const db: any = isTursoConfigured() ? tursoDb : _fileDb;
 
