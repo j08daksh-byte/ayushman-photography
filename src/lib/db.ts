@@ -1,8 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import os from 'os';
-// Turso DB import — lazy to avoid circular dependency issues
-// isTursoConfigured() and tursoDb are imported at the bottom after all classes are defined
+import { tursoDb } from './turso-db';
 
 export interface UserRecord {
   id: string;
@@ -1597,8 +1596,9 @@ class SettingsClient {
 // otherwise falls back to the file-based JSON store (local dev).
 // ---------------------------------------------------------------------------
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const { tursoDb, isTursoConfigured } = require('./turso-db');
+export function isTursoConfigured(): boolean {
+  return Boolean(process.env.TURSO_DATABASE_URL);
+}
 
 const _fileDb = {
   user: new UserClient(),
@@ -1610,5 +1610,10 @@ const _fileDb = {
   settings: new SettingsClient(),
 };
 
-export const db: any = isTursoConfigured() ? tursoDb : _fileDb;
+export const db: any = new Proxy({}, {
+  get(_target, prop) {
+    const targetDb = isTursoConfigured() ? tursoDb : _fileDb;
+    return (targetDb as any)[prop];
+  }
+});
 
