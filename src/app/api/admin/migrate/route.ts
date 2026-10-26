@@ -72,7 +72,7 @@ export async function POST(req: Request) {
       if (force || existingProducts.length === 0) {
         // Seed products by using the kvSet directly via a workaround through the product client
         // We'll do this by calling the internal API
-        const { createClient } = await import('@libsql/client');
+        const { createClient } = await import('@libsql/client/web');
         const client = createClient({
           url: process.env.TURSO_DATABASE_URL!,
           authToken: process.env.TURSO_AUTH_TOKEN,

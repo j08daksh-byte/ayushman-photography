@@ -12,7 +12,7 @@
  * If these are not set, falls back to the file-based store.
  */
 
-import { createClient, Client } from '@libsql/client';
+import { createClient, Client } from '@libsql/client/web';
 
 // Inline types to avoid circular dependency with db.ts
 export interface UserRecord {
