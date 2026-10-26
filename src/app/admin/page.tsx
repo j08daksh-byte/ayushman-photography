@@ -163,6 +163,8 @@ export default function AdminPortalPage() {
   const [settingConfirmPassword, setSettingConfirmPassword] = useState('');
   const [settingSaving, setSettingSaving] = useState(false);
   const [settingMessage, setSettingMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
+  const [dbMigrating, setDbMigrating] = useState(false);
+  const [dbMigrateResult, setDbMigrateResult] = useState<string | null>(null);
 
   const fetchAdminData = async () => {
     setLoadingData(true);
@@ -891,6 +893,32 @@ export default function AdminPortalPage() {
     } catch {
       setSettingSaving(false);
       setSettingMessage({ text: 'Network error updating settings.', type: 'error' });
+    }
+  };
+
+  const handleSyncToTurso = async () => {
+    if (!confirm('Sync all products, categories, and banners to Turso Cloud DB? This will save all current data permanently to your cloud database.')) return;
+    setDbMigrating(true);
+    setDbMigrateResult(null);
+    try {
+      const res = await fetch('/api/admin/migrate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ force: false }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        const prodCount = data.results?.products?.seeded ?? data.results?.products?.count ?? 0;
+        const catCount = data.results?.categories?.seeded ?? data.results?.categories?.count ?? 0;
+        setDbMigrateResult(`✅ Success! Seeded/Synced to Turso Cloud DB: ${prodCount} products, ${catCount} categories.`);
+        fetchAdminData();
+      } else {
+        setDbMigrateResult(`ℹ️ ${data.error || data.results?.note || 'Already in sync with Turso Cloud DB.'}`);
+      }
+    } catch (err: any) {
+      setDbMigrateResult(`❌ Failed to sync: ${err.message}`);
+    } finally {
+      setDbMigrating(false);
     }
   };
 
@@ -2336,6 +2364,46 @@ export default function AdminPortalPage() {
                   {settingSaving ? '💾 Saving Store Settings...' : '💾 Save All Store Settings & Socials'}
                 </button>
               </form>
+
+              {/* 4. CLOUD DATABASE (TURSO) & DATA PERSISTENCE */}
+              <div style={{ background: '#F8FAFC', padding: '1.25rem', borderRadius: '10px', border: '1px solid #CBD5E1', marginTop: '1.75rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                  <h3 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#0B2545', margin: 0, display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                    ☁️ Cloud Database (Turso) Sync
+                  </h3>
+                  <span style={{ fontSize: '0.72rem', background: '#E0F2FE', color: '#0369A1', padding: '0.2rem 0.55rem', borderRadius: '999px', fontWeight: 700 }}>
+                    Persistent Cloud Storage
+                  </span>
+                </div>
+                <p style={{ fontSize: '0.8125rem', color: '#64748B', marginBottom: '1rem', lineHeight: 1.5 }}>
+                  Once your Turso Database environment variables (<code>TURSO_DATABASE_URL</code> and <code>TURSO_AUTH_TOKEN</code>) are added to Vercel, click the button below once to sync all products, categories, and banners into your personal cloud database. Any changes or deletions you make will stay permanent across refreshes!
+                </p>
+                {dbMigrateResult && (
+                  <div style={{ padding: '0.75rem 1rem', borderRadius: '6px', marginBottom: '1rem', fontSize: '0.8125rem', fontWeight: 600, background: dbMigrateResult.startsWith('✅') ? '#D1FAE5' : '#FEF3C7', color: dbMigrateResult.startsWith('✅') ? '#065F46' : '#92400E' }}>
+                    {dbMigrateResult}
+                  </div>
+                )}
+                <button
+                  type="button"
+                  onClick={handleSyncToTurso}
+                  disabled={dbMigrating}
+                  style={{
+                    padding: '0.65rem 1.25rem',
+                    borderRadius: '8px',
+                    background: '#0B2545',
+                    color: '#FFF',
+                    border: 'none',
+                    fontWeight: 700,
+                    fontSize: '0.85rem',
+                    cursor: dbMigrating ? 'wait' : 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.5rem'
+                  }}
+                >
+                  {dbMigrating ? '⏳ Syncing Data to Cloud...' : '⚡ Sync All Data to Turso Cloud Database'}
+                </button>
+              </div>
             </div>
           )}
         </div>
