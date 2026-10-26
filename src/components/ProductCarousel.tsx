@@ -128,7 +128,18 @@ export default function ProductCarousel({ id, sectionTitle, sectionSubtitle, ite
                     flexDirection: 'column',
                     cursor: 'pointer',
                   }}
-                  onClick={() => setSelectedProduct({ id: item.id, name: item.title, image: item.image, badge: item.badge, price: item.price, unit: item.unit, category: item.category })}
+                  onClick={() => setSelectedProduct({
+                    id: item.id,
+                    name: item.title,
+                    image: item.image,
+                    badge: item.badge,
+                    price: item.price,
+                    unit: item.unit,
+                    category: item.category,
+                    paperOptions: (item as any).paperOptions,
+                    quantityOptions: (item as any).quantityOptions,
+                    cornerOptions: (item as any).cornerOptions,
+                  })}
                 >
                   <div
                     style={{

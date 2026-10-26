@@ -92,7 +92,7 @@ export default function BookingWizard() {
       if (user.phone) {
         const cleanPhone = user.phone.replace(/\D/g, '');
         if (cleanPhone.length >= 10) {
-          setUpiId(`${cleanPhone.slice(-10)}@paytm`);
+          setUpiId(`${cleanPhone.slice(-10)}@ybl`);
         }
       }
     }
@@ -114,7 +114,7 @@ export default function BookingWizard() {
     if (form.phone && !upiId) {
       const cleanPhone = form.phone.replace(/\D/g, '');
       if (cleanPhone.length >= 10) {
-        setUpiId(`${cleanPhone.slice(-10)}@paytm`);
+        setUpiId(`${cleanPhone.slice(-10)}@ybl`);
       }
     }
   }, [form.phone, upiId]);
@@ -261,7 +261,7 @@ export default function BookingWizard() {
   };
 
   const cleanPhone = form.phone ? form.phone.replace(/\D/g, '').slice(-10) : '9479784979';
-  const upiIntentUrl = `upi://pay?pa=9479784979@paytm&pn=Ayushman%20Cards%20n%20Graphics&am=${selectedPackage.depositPrice}&cu=INR`;
+  const upiIntentUrl = `upi://pay?pa=9479784979@ybl&pn=Ayushman%20Cards%20n%20Graphics&am=${selectedPackage.depositPrice}&cu=INR`;
   const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(upiIntentUrl)}`;
 
   return (
@@ -479,7 +479,7 @@ export default function BookingWizard() {
                   </div>
                   <div>
                     <label className="font-body" style={{ display: 'block', fontSize: '0.8rem', color: '#D40000', fontWeight: 600, marginBottom: '0.4rem' }}>
-                      📱 Phone Number (Directly Linked to your PhonePe / GPay / Paytm)
+                      📱 Phone Number (Directly Linked to your PhonePe / UPI)
                     </label>
                     <input
                       type="tel"
@@ -720,7 +720,7 @@ export default function BookingWizard() {
             {/* Payment Method Selector Tabs */}
             <div style={{ display: 'flex', borderBottom: '1px solid #1e293b', backgroundColor: '#0f172a' }}>
               {[
-                { id: 'upi', label: '📱 Phone UPI / GPay' },
+                { id: 'upi', label: '📱 PhonePe / UPI' },
                 { id: 'card', label: '💳 Cards' },
                 { id: 'netbanking', label: '🏦 NetBanking' },
               ].map((tab) => (
@@ -782,7 +782,7 @@ export default function BookingWizard() {
                     }}
                   >
                     <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginBottom: '0.75rem', fontWeight: 600 }}>
-                      Scan QR Code with Google Pay / PhonePe / Paytm to Pay ₹{selectedPackage.depositPrice.toLocaleString('en-IN')}:
+                      Scan QR Code with PhonePe or UPI to Pay ₹{selectedPackage.depositPrice.toLocaleString('en-IN')}:
                     </div>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
@@ -797,7 +797,7 @@ export default function BookingWizard() {
                       }}
                     />
                     <div style={{ fontSize: '0.75rem', color: '#10b981', marginTop: '0.75rem', fontWeight: 700 }}>
-                      ✓ Linked to Studio UPI: 9479784979@paytm
+                      ✓ Linked to Studio UPI: 9479784979@ybl
                     </div>
                   </div>
 
@@ -808,9 +808,7 @@ export default function BookingWizard() {
                     </div>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
                       {[
-                        { name: 'Google Pay', handle: `${cleanPhone}@okaxis`, color: '#4285F4' },
                         { name: 'PhonePe', handle: `${cleanPhone}@ybl`, color: '#5f259f' },
-                        { name: 'Paytm', handle: `${cleanPhone}@paytm`, color: '#00baf2' },
                         { name: 'BHIM UPI', handle: `${cleanPhone}@upi`, color: '#0083ca' },
                       ].map((app) => (
                         <a
@@ -848,7 +846,7 @@ export default function BookingWizard() {
                     </label>
                     <input
                       type="text"
-                      placeholder={`${cleanPhone}@paytm`}
+                      placeholder={`${cleanPhone}@ybl`}
                       value={upiId}
                       onChange={(e) => setUpiId(e.target.value)}
                       style={{

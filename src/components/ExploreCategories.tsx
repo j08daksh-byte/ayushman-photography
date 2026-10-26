@@ -393,47 +393,44 @@ export default function ExploreCategories() {
       const res = await fetch('/api/products');
       if (!res.ok) return;
       const data = await res.json();
-      if (!data.success || !Array.isArray(data.products) || data.products.length === 0) return;
+      if (!data.success || !Array.isArray(data.products)) return;
 
       const liveProducts = data.products.filter((p: any) => p.isActive !== false);
+      const bgGradients = ['#FAF0E6', '#F5F2ED', '#F0F7F2', '#F4F0F9', '#EBF5FA', '#FDF2F2', '#FFFDF0', '#F9EBE6'];
 
-      setBestSellers((prev) =>
-        prev.map((item) => {
-          const match = liveProducts.find(
-            (p: any) => p.id === item.id || p.title.toLowerCase().includes(item.name.toLowerCase().slice(0, 15))
-          );
-          if (match) {
-            return {
-              ...item,
-              name: match.title,
-              badge: match.badge || item.badge,
-              price: match.price || item.price,
-              unit: match.unit || item.unit,
-              image: match.image || item.image,
-            };
-          }
-          return item;
-        })
-      );
+      if (liveProducts.length > 0) {
+        // Derive Best Sellers directly from live active products
+        const mappedBestSellers: CategoryProduct[] = liveProducts.slice(0, 8).map((p: any, idx: number) => ({
+          id: p.id,
+          name: p.title,
+          image: p.image,
+          badge: p.badge || (p.price ? `Starts @ ${p.price}` : 'POPULAR'),
+          price: p.price,
+          unit: p.unit || `${p.price} each`,
+          rating: p.rating || 4.9,
+          reviews: p.reviews || 500,
+          bgGradient: bgGradients[idx % bgGradients.length],
+        }));
+        setBestSellers(mappedBestSellers);
 
-      setTrending((prev) =>
-        prev.map((item) => {
-          const match = liveProducts.find(
-            (p: any) => p.id === item.id || p.title.toLowerCase().includes(item.name.toLowerCase().slice(0, 15))
-          );
-          if (match) {
-            return {
-              ...item,
-              name: match.title,
-              badge: match.badge || item.badge,
-              price: match.price || item.price,
-              unit: match.unit || item.unit,
-              image: match.image || item.image,
-            };
-          }
-          return item;
-        })
-      );
+        // Derive Trending directly from live active products
+        const trendingSlice = liveProducts.length > 8 ? liveProducts.slice(8, 16) : liveProducts.slice().reverse();
+        const mappedTrending: CategoryProduct[] = trendingSlice.map((p: any, idx: number) => ({
+          id: p.id,
+          name: p.title,
+          image: p.image,
+          badge: p.badge || (p.price ? `Starts @ ${p.price}` : 'TRENDING'),
+          price: p.price,
+          unit: p.unit || `${p.price} each`,
+          rating: p.rating || 4.8,
+          reviews: p.reviews || 420,
+          bgGradient: bgGradients[(idx + 2) % bgGradients.length],
+        }));
+        setTrending(mappedTrending);
+      } else {
+        setBestSellers([]);
+        setTrending([]);
+      }
     } catch (err) {
       console.warn('ExploreCategories live products load fallback:', err);
     }

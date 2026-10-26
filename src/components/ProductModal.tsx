@@ -1,7 +1,17 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCart } from '@/context/CartContext';
+
+export interface PaperOption {
+  label: string;
+  extraPrice: number;
+}
+
+export interface QuantityOption {
+  qty: number;
+  multiplier: number;
+}
 
 export interface ProductModalItem {
   id: string;
@@ -11,6 +21,11 @@ export interface ProductModalItem {
   price?: string;
   unit?: string;
   category?: string;
+  description?: string;
+  features?: string[];
+  paperOptions?: PaperOption[];
+  quantityOptions?: QuantityOption[];
+  cornerOptions?: string[];
 }
 
 interface ProductModalProps {
@@ -18,7 +33,7 @@ interface ProductModalProps {
   onClose: () => void;
 }
 
-const paperOptions = [
+const DEFAULT_PAPER_OPTIONS: PaperOption[] = [
   { label: '350 GSM Premium Matte', extraPrice: 0 },
   { label: 'Glossy Laminated (350 GSM)', extraPrice: 30 },
   { label: 'Velvet Touch Soft-Feel', extraPrice: 80 },
@@ -26,19 +41,45 @@ const paperOptions = [
   { label: 'Royal Gold Foil Embossed', extraPrice: 250 },
 ];
 
-const quantityOptions = [
+const DEFAULT_QUANTITY_OPTIONS: QuantityOption[] = [
   { qty: 100, multiplier: 1 },
   { qty: 250, multiplier: 2.2 },
   { qty: 500, multiplier: 3.8 },
   { qty: 1000, multiplier: 6.5 },
 ];
 
+const DEFAULT_CORNER_OPTIONS = ['Standard Cut', 'Rounded Corners'];
+
 export default function ProductModal({ product, onClose }: ProductModalProps) {
   const { addToCart } = useCart();
-  const [selectedQty, setSelectedQty] = useState(100);
-  const [selectedPaper, setSelectedPaper] = useState(paperOptions[0]);
-  const [cornerStyle, setCornerStyle] = useState('Standard Cut');
+
+  const activePaperOptions = (product?.paperOptions && product.paperOptions.length > 0)
+    ? product.paperOptions
+    : DEFAULT_PAPER_OPTIONS;
+
+  const activeQuantityOptions = (product?.quantityOptions && product.quantityOptions.length > 0)
+    ? product.quantityOptions
+    : DEFAULT_QUANTITY_OPTIONS;
+
+  const activeCornerOptions = (product?.cornerOptions && product.cornerOptions.length > 0)
+    ? product.cornerOptions
+    : DEFAULT_CORNER_OPTIONS;
+
+  const [selectedQty, setSelectedQty] = useState(activeQuantityOptions[0]?.qty || 100);
+  const [selectedPaper, setSelectedPaper] = useState(activePaperOptions[0]);
+  const [cornerStyle, setCornerStyle] = useState(activeCornerOptions[0] || 'Standard Cut');
   const [addedToast, setAddedToast] = useState(false);
+
+  useEffect(() => {
+    if (product) {
+      const papers = (product.paperOptions && product.paperOptions.length > 0) ? product.paperOptions : DEFAULT_PAPER_OPTIONS;
+      const qtys = (product.quantityOptions && product.quantityOptions.length > 0) ? product.quantityOptions : DEFAULT_QUANTITY_OPTIONS;
+      const corners = (product.cornerOptions && product.cornerOptions.length > 0) ? product.cornerOptions : DEFAULT_CORNER_OPTIONS;
+      setSelectedPaper(papers[0]);
+      setSelectedQty(qtys[0]?.qty || 100);
+      setCornerStyle(corners[0] || 'Standard Cut');
+    }
+  }, [product?.id]);
 
   if (!product) return null;
 
@@ -46,8 +87,9 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
   const rawPriceMatch = product.price?.replace(/[^0-9]/g, '');
   const basePrice = rawPriceMatch ? parseInt(rawPriceMatch, 10) : 200;
 
-  const currentQtyObj = quantityOptions.find((q) => q.qty === selectedQty) || quantityOptions[0];
-  const calculatedPrice = Math.round(basePrice * currentQtyObj.multiplier + selectedPaper.extraPrice);
+  const currentQtyObj = activeQuantityOptions.find((q) => q.qty === selectedQty) || activeQuantityOptions[0];
+  const paperExtra = Number(selectedPaper?.extraPrice) || 0;
+  const calculatedPrice = Math.round(basePrice * (currentQtyObj?.multiplier || 1) + paperExtra);
 
   const handleAddToCart = (e: React.MouseEvent, redirect: boolean = false) => {
     e.preventDefault();
@@ -195,92 +237,105 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
             </div>
 
             {/* Quantity Selector */}
-            <div>
-              <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 700, color: '#1E1E1E', marginBottom: '0.4rem' }}>
-                Select Print Quantity:
-              </label>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '0.4rem' }}>
-                {quantityOptions.map((q) => (
-                  <button
-                    key={q.qty}
-                    type="button"
-                    onClick={() => setSelectedQty(q.qty)}
-                    style={{
-                      padding: '0.5rem 0.25rem',
-                      borderRadius: '6px',
-                      border: selectedQty === q.qty ? '2px solid #0B2545' : '1px solid #E5E7EB',
-                      background: selectedQty === q.qty ? 'rgba(11,37,69,0.06)' : '#FFFFFF',
-                      fontFamily: "'Inter', sans-serif",
-                      fontSize: '0.8125rem',
-                      fontWeight: selectedQty === q.qty ? 700 : 500,
-                      color: selectedQty === q.qty ? '#0B2545' : '#4B5563',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    {q.qty} Pcs
-                  </button>
-                ))}
+            {activeQuantityOptions.length > 0 && (
+              <div>
+                <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 700, color: '#1E1E1E', marginBottom: '0.4rem' }}>
+                  Select Print Quantity:
+                </label>
+                <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(activeQuantityOptions.length, 4)}, 1fr)`, gap: '0.4rem' }}>
+                  {activeQuantityOptions.map((q) => (
+                    <button
+                      key={q.qty}
+                      type="button"
+                      onClick={() => setSelectedQty(q.qty)}
+                      style={{
+                        padding: '0.5rem 0.25rem',
+                        borderRadius: '6px',
+                        border: selectedQty === q.qty ? '2px solid #0B2545' : '1px solid #E5E7EB',
+                        background: selectedQty === q.qty ? 'rgba(11,37,69,0.06)' : '#FFFFFF',
+                        fontFamily: "'Inter', sans-serif",
+                        fontSize: '0.8125rem',
+                        fontWeight: selectedQty === q.qty ? 700 : 500,
+                        color: selectedQty === q.qty ? '#0B2545' : '#4B5563',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {q.qty} Pcs
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Paper Finish Selector */}
-            <div>
-              <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 700, color: '#1E1E1E', marginBottom: '0.4rem' }}>
-                Paper Finish & Coating:
-              </label>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
-                {paperOptions.map((p) => (
-                  <button
-                    key={p.label}
-                    type="button"
-                    onClick={() => setSelectedPaper(p)}
-                    style={{
-                      padding: '0.5rem 0.75rem',
-                      borderRadius: '6px',
-                      border: selectedPaper.label === p.label ? '2px solid #0B2545' : '1px solid #E5E7EB',
-                      background: selectedPaper.label === p.label ? 'rgba(11,37,69,0.06)' : '#FFFFFF',
-                      fontFamily: "'Inter', sans-serif",
-                      fontSize: '0.8125rem',
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      cursor: 'pointer',
-                      color: '#1E1E1E',
-                    }}
-                  >
-                    <span>{p.label}</span>
-                    {p.extraPrice > 0 && <span style={{ color: '#6B7280' }}>+₹{p.extraPrice}</span>}
-                  </button>
-                ))}
+            {activePaperOptions.length > 0 && (
+              <div>
+                <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 700, color: '#1E1E1E', marginBottom: '0.4rem' }}>
+                  Paper Finish & Coating:
+                </label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                  {activePaperOptions.map((p) => {
+                    const isSelected = selectedPaper?.label === p.label;
+                    return (
+                      <button
+                        key={p.label}
+                        type="button"
+                        onClick={() => setSelectedPaper(p)}
+                        style={{
+                          padding: '0.5rem 0.75rem',
+                          borderRadius: '6px',
+                          border: isSelected ? '2px solid #0B2545' : '1px solid #E5E7EB',
+                          background: isSelected ? 'rgba(11,37,69,0.06)' : '#FFFFFF',
+                          fontFamily: "'Inter', sans-serif",
+                          fontSize: '0.8125rem',
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          cursor: 'pointer',
+                          color: '#1E1E1E',
+                        }}
+                      >
+                        <span style={{ fontWeight: isSelected ? 600 : 400 }}>{p.label}</span>
+                        {p.extraPrice > 0 ? (
+                          <span style={{ color: '#0B2545', fontWeight: 700 }}>+₹{p.extraPrice}</span>
+                        ) : (
+                          <span style={{ color: '#9CA3AF', fontSize: '0.75rem' }}>Included</span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Corner Cutting */}
-            <div>
-              <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 700, color: '#1E1E1E', marginBottom: '0.4rem' }}>
-                Corner Style:
-              </label>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.4rem' }}>
-                {['Standard Cut', 'Rounded Corners'].map((c) => (
-                  <button
-                    key={c}
-                    type="button"
-                    onClick={() => setCornerStyle(c)}
-                    style={{
-                      padding: '0.45rem',
-                      borderRadius: '6px',
-                      border: cornerStyle === c ? '2px solid #0B2545' : '1px solid #E5E7EB',
-                      background: cornerStyle === c ? 'rgba(11,37,69,0.06)' : '#FFFFFF',
-                      fontSize: '0.8125rem',
-                      fontWeight: cornerStyle === c ? 700 : 500,
-                      color: '#1E1E1E',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    {c}
-                  </button>
-                ))}
+            {activeCornerOptions.length > 0 && (
+              <div>
+                <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 700, color: '#1E1E1E', marginBottom: '0.4rem' }}>
+                  Corner Style:
+                </label>
+                <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(activeCornerOptions.length, 3)}, 1fr)`, gap: '0.4rem' }}>
+                  {activeCornerOptions.map((c) => (
+                    <button
+                      key={c}
+                      type="button"
+                      onClick={() => setCornerStyle(c)}
+                      style={{
+                        padding: '0.45rem',
+                        borderRadius: '6px',
+                        border: cornerStyle === c ? '2px solid #0B2545' : '1px solid #E5E7EB',
+                        background: cornerStyle === c ? 'rgba(11,37,69,0.06)' : '#FFFFFF',
+                        fontSize: '0.8125rem',
+                        fontWeight: cornerStyle === c ? 700 : 500,
+                        color: '#1E1E1E',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {c}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Price Box */}
             <div

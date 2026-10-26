@@ -32,22 +32,27 @@ export async function POST(req: Request) {
   try {
     const user = await getCurrentUser();
     if (!user || user.role !== 'ADMIN') {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized. Please login as admin.' }, { status: 401 });
     }
 
     const body = await req.json();
-    const { id, label, icon, description } = body;
+    let { id, label, icon, description } = body;
 
-    if (!id || !label) {
+    if (!label || !label.trim()) {
       return NextResponse.json(
-        { error: 'Category ID and Label are required' },
+        { error: 'Category Label is required' },
         { status: 400 }
       );
     }
 
+    let catId = (id || '').trim();
+    if (!catId) {
+      catId = label.trim().replace(/^[^\w\s]+/u, '').trim() || `cat_${Date.now()}`;
+    }
+
     const category = await db.category.create({
       data: {
-        id: id.trim(),
+        id: catId,
         label: label.trim(),
         icon: icon || '📦',
         description: description || '',
@@ -72,19 +77,27 @@ export async function PUT(req: Request) {
   try {
     const user = await getCurrentUser();
     if (!user || user.role !== 'ADMIN') {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized. Please login as admin.' }, { status: 401 });
     }
 
     const body = await req.json();
-    const { id, label, icon, description } = body;
+    let { id, label, icon, description } = body;
+
+    if (!id && label) {
+      id = label.trim();
+    }
 
     if (!id) {
       return NextResponse.json({ error: 'Category ID is required' }, { status: 400 });
     }
 
     const updated = await db.category.update({
-      where: { id },
-      data: { label, icon, description },
+      where: { id: id.trim() },
+      data: {
+        label: label ? label.trim() : undefined,
+        icon: icon || undefined,
+        description: description !== undefined ? description : undefined,
+      },
     });
 
     return NextResponse.json({
@@ -105,7 +118,7 @@ export async function DELETE(req: Request) {
   try {
     const user = await getCurrentUser();
     if (!user || user.role !== 'ADMIN') {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized. Please login as admin.' }, { status: 401 });
     }
 
     const { searchParams } = new URL(req.url);
@@ -115,10 +128,11 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: 'Category ID is required' }, { status: 400 });
     }
 
-    await db.category.delete({ where: { id } });
+    const deleted = await db.category.delete({ where: { id: id.trim() } });
 
     return NextResponse.json({
       success: true,
+      deleted,
       message: 'Category deleted successfully',
     });
   } catch (error: any) {

@@ -63,7 +63,22 @@ export default function AdminPortalPage() {
   const [editingProduct, setEditingProduct] = useState<any | null>(null);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
-  const [productForm, setProductForm] = useState({
+  const [productForm, setProductForm] = useState<{
+    title: string;
+    category: string;
+    badge: string;
+    price: string;
+    numericPrice: number;
+    unit: string;
+    image: string;
+    description: string;
+    features: string;
+    customizerId: string;
+    isActive: boolean;
+    paperOptions: { label: string; extraPrice: number }[];
+    quantityOptions: { qty: number; multiplier: number }[];
+    cornerOptions: string;
+  }>({
     title: '',
     category: 'Wedding Cards',
     badge: '100 PCS @ ₹3,500',
@@ -75,6 +90,20 @@ export default function AdminPortalPage() {
     features: 'High Quality Offset Print\nFast Dispatch in 3 Days\nPremium Cardstock',
     customizerId: 'wedding-card',
     isActive: true,
+    paperOptions: [
+      { label: '350 GSM Premium Matte', extraPrice: 0 },
+      { label: 'Glossy Laminated (350 GSM)', extraPrice: 30 },
+      { label: 'Velvet Touch Soft-Feel', extraPrice: 80 },
+      { label: 'Spot UV Selective Coating', extraPrice: 150 },
+      { label: 'Royal Gold Foil Embossed', extraPrice: 250 },
+    ],
+    quantityOptions: [
+      { qty: 100, multiplier: 1 },
+      { qty: 250, multiplier: 2.2 },
+      { qty: 500, multiplier: 3.8 },
+      { qty: 1000, multiplier: 6.5 },
+    ],
+    cornerOptions: 'Standard Cut, Rounded Corners',
   });
 
   // Category Modal State
@@ -324,16 +353,30 @@ export default function AdminPortalPage() {
     setUploadError(null);
     setProductForm({
       title: '',
-      category: categoriesList[0]?.id || 'Wedding Cards',
-      badge: '100 PCS @ ₹3,500',
-      price: '₹3,500',
-      numericPrice: 3500,
+      category: categoriesList[0]?.id || 'Business Cards',
+      badge: '100 PCS @ ₹2,400',
+      price: '₹2,400',
+      numericPrice: 2400,
       unit: '100 Cards',
-      image: '/images/wedding/scroll_royal_blue_velvet.png',
+      image: '/images/visiting_cards/card_500gsm_velvet.jpg',
       description: '',
       features: 'High Quality Offset Print\nFast Dispatch in 3 Days\nPremium Cardstock',
-      customizerId: 'wedding-card',
+      customizerId: 'visiting-card',
       isActive: true,
+      paperOptions: [
+        { label: '350 GSM Premium Matte', extraPrice: 0 },
+        { label: 'Glossy Laminated (350 GSM)', extraPrice: 30 },
+        { label: 'Velvet Touch Soft-Feel', extraPrice: 80 },
+        { label: 'Spot UV Selective Coating', extraPrice: 150 },
+        { label: 'Royal Gold Foil Embossed', extraPrice: 250 },
+      ],
+      quantityOptions: [
+        { qty: 100, multiplier: 1 },
+        { qty: 250, multiplier: 2.2 },
+        { qty: 500, multiplier: 3.8 },
+        { qty: 1000, multiplier: 6.5 },
+      ],
+      cornerOptions: 'Standard Cut, Rounded Corners',
     });
     setShowProductModal(true);
   };
@@ -342,17 +385,37 @@ export default function AdminPortalPage() {
     setEditingProduct(prod);
     setUploadError(null);
     setProductForm({
-      title: prod.title,
-      category: prod.category,
+      title: prod.title || '',
+      category: prod.category || 'Business Cards',
       badge: prod.badge || '',
       price: prod.price || `₹${prod.numericPrice || 0}`,
       numericPrice: prod.numericPrice || 0,
       unit: prod.unit || '100 Cards',
-      image: prod.image,
+      image: prod.image || '',
       description: prod.description || '',
       features: Array.isArray(prod.features) ? prod.features.join('\n') : (prod.features || ''),
-      customizerId: prod.customizerId || 'wedding-card',
+      customizerId: prod.customizerId || 'visiting-card',
       isActive: prod.isActive !== false,
+      paperOptions: Array.isArray(prod.paperOptions) && prod.paperOptions.length > 0
+        ? prod.paperOptions.map((p: any) => ({ label: p.label || '', extraPrice: Number(p.extraPrice) || 0 }))
+        : [
+            { label: '350 GSM Premium Matte', extraPrice: 0 },
+            { label: 'Glossy Laminated (350 GSM)', extraPrice: 30 },
+            { label: 'Velvet Touch Soft-Feel', extraPrice: 80 },
+            { label: 'Spot UV Selective Coating', extraPrice: 150 },
+            { label: 'Royal Gold Foil Embossed', extraPrice: 250 },
+          ],
+      quantityOptions: Array.isArray(prod.quantityOptions) && prod.quantityOptions.length > 0
+        ? prod.quantityOptions.map((q: any) => ({ qty: Number(q.qty) || 100, multiplier: Number(q.multiplier) || 1 }))
+        : [
+            { qty: 100, multiplier: 1 },
+            { qty: 250, multiplier: 2.2 },
+            { qty: 500, multiplier: 3.8 },
+            { qty: 1000, multiplier: 6.5 },
+          ],
+      cornerOptions: Array.isArray(prod.cornerOptions) && prod.cornerOptions.length > 0
+        ? prod.cornerOptions.join(', ')
+        : 'Standard Cut, Rounded Corners',
     });
     setShowProductModal(true);
   };
@@ -404,6 +467,12 @@ export default function AdminPortalPage() {
             : productForm.features.split('\n').map((s: string) => s.trim()).filter(Boolean))
         : [];
 
+      const cornersArray = productForm.cornerOptions
+        ? (Array.isArray(productForm.cornerOptions)
+            ? productForm.cornerOptions
+            : productForm.cornerOptions.split(',').map((s: string) => s.trim()).filter(Boolean))
+        : ['Standard Cut', 'Rounded Corners'];
+
       const numPrice = Number(productForm.numericPrice) || 0;
       const formattedPrice = `₹${numPrice.toLocaleString()}`;
 
@@ -415,6 +484,9 @@ export default function AdminPortalPage() {
         badge: productForm.badge || `100 PCS @ ${formattedPrice}`,
         unit: productForm.unit || '100 Cards',
         features: featuresArray,
+        paperOptions: (productForm.paperOptions || []).filter((p) => p.label.trim() !== ''),
+        quantityOptions: (productForm.quantityOptions || []).filter((q) => Number(q.qty) > 0),
+        cornerOptions: cornersArray,
         isActive: productForm.isActive !== false,
       };
 
@@ -443,20 +515,24 @@ export default function AdminPortalPage() {
   };
 
   const handleDeleteProduct = async (productId: string) => {
-    if (!confirm('Are you sure you want to delete this product?')) return;
+    if (!confirm('Are you sure you want to delete this product? This will remove it from the database and website.')) return;
     try {
-      const res = await fetch(`/api/admin/products?id=${productId}`, { method: 'DELETE' });
-      if (res.ok) {
-        setActionNotice('✓ Product removed from store.');
+      const res = await fetch(`/api/admin/products?id=${encodeURIComponent(productId)}`, { method: 'DELETE' });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.success) {
+        setProductsList((prev) => prev.filter((p) => p.id !== productId));
+        setActionNotice('✓ Product permanently removed from store & database.');
         setTimeout(() => setActionNotice(null), 3500);
         if (typeof window !== 'undefined') {
           window.dispatchEvent(new CustomEvent('catalogUpdated'));
           localStorage.setItem('ayushman_catalog_updated_at', Date.now().toString());
         }
-        fetchAdminData();
+        await fetchAdminData();
+      } else {
+        alert(data.error || `Failed to delete product (Status: ${res.status}). Please check admin login.`);
       }
-    } catch {
-      alert('Error deleting product');
+    } catch (err: any) {
+      alert(`Error deleting product: ${err?.message || err}`);
     }
   };
 
@@ -479,46 +555,62 @@ export default function AdminPortalPage() {
 
   const handleSaveCategorySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!categoryForm.label.trim()) {
+      alert('Category label is required.');
+      return;
+    }
+
+    const autoId = categoryForm.id.trim() || categoryForm.label.trim().replace(/^[^\w\s]+/u, '').trim() || `cat_${Date.now()}`;
+    const payload = {
+      ...categoryForm,
+      id: autoId,
+      label: categoryForm.label.trim(),
+    };
+
     try {
       const res = await fetch('/api/admin/categories', {
         method: editingCategory ? 'PUT' : 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(categoryForm),
+        body: JSON.stringify(payload),
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
       if (res.ok && data.success) {
         setShowCategoryModal(false);
-        setActionNotice(`✓ Category "${categoryForm.label}" saved!`);
+        setActionNotice(`✓ Category "${payload.label}" saved to database!`);
         setTimeout(() => setActionNotice(null), 3500);
         if (typeof window !== 'undefined') {
           window.dispatchEvent(new CustomEvent('catalogUpdated'));
           localStorage.setItem('ayushman_catalog_updated_at', Date.now().toString());
         }
-        fetchAdminData();
+        await fetchAdminData();
       } else {
-        alert(data.error || 'Failed to save category');
+        alert(data.error || `Failed to save category (Status: ${res.status}). Please check admin login.`);
       }
-    } catch {
-      alert('Error saving category.');
+    } catch (err: any) {
+      alert(`Error saving category: ${err?.message || err}`);
     }
   };
 
   const handleDeleteCategory = async (categoryId: string) => {
-    if (!confirm(`Are you sure you want to delete category "${categoryId}"?`)) return;
+    if (!confirm(`Are you sure you want to delete category "${categoryId}"? Products in this category will remain but the category tag will be removed.`)) return;
     try {
       const res = await fetch(`/api/admin/categories?id=${encodeURIComponent(categoryId)}`, { method: 'DELETE' });
-      if (res.ok) {
-        setActionNotice('✓ Category removed.');
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.success) {
+        setCategoriesList((prev) => prev.filter((c) => c.id !== categoryId));
+        setActionNotice('✓ Category removed from store & database.');
         setTimeout(() => setActionNotice(null), 3500);
         if (typeof window !== 'undefined') {
           window.dispatchEvent(new CustomEvent('catalogUpdated'));
           localStorage.setItem('ayushman_catalog_updated_at', Date.now().toString());
         }
-        fetchAdminData();
+        await fetchAdminData();
+      } else {
+        alert(data.error || `Failed to delete category (Status: ${res.status}). Please check admin login.`);
       }
-    } catch {
-      alert('Error deleting category');
+    } catch (err: any) {
+      alert(`Error deleting category: ${err?.message || err}`);
     }
   };
 
@@ -2387,6 +2479,282 @@ export default function AdminPortalPage() {
                   />
                 </div>
 
+                {/* ═══ PAPER FINISH & COATING (WITH CUSTOM ADD-ON PRICES) ═══ */}
+                <div style={{ background: '#F8FAFC', border: '1px solid #CBD5E1', borderRadius: '10px', padding: '1rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.65rem', gap: '0.5rem' }}>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 800, color: '#0B2545', margin: 0 }}>
+                        ✨ Paper Finish & Coating Options (Customer Selectable + Pricing)
+                      </label>
+                      <span style={{ fontSize: '0.725rem', color: '#64748B' }}>
+                        Set custom finish names and extra add-on costs in ₹ (shown on product page modal).
+                      </span>
+                    </div>
+                    <div style={{ display: 'flex', gap: '0.35rem' }}>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setProductForm((prev) => ({
+                            ...prev,
+                            paperOptions: [
+                              ...(prev.paperOptions || []),
+                              { label: '', extraPrice: 0 },
+                            ],
+                          }));
+                        }}
+                        style={{
+                          padding: '0.35rem 0.65rem',
+                          borderRadius: '6px',
+                          background: '#0B2545',
+                          color: '#FFFFFF',
+                          border: 'none',
+                          fontSize: '0.75rem',
+                          fontWeight: 700,
+                          cursor: 'pointer',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        ➕ Add Finish
+                      </button>
+                      <button
+                        type="button"
+                        title="Load 5 standard industry card finishes"
+                        onClick={() => {
+                          setProductForm((prev) => ({
+                            ...prev,
+                            paperOptions: [
+                              { label: '350 GSM Premium Matte', extraPrice: 0 },
+                              { label: 'Glossy Laminated (350 GSM)', extraPrice: 30 },
+                              { label: 'Velvet Touch Soft-Feel', extraPrice: 80 },
+                              { label: 'Spot UV Selective Coating', extraPrice: 150 },
+                              { label: 'Royal Gold Foil Embossed', extraPrice: 250 },
+                            ],
+                          }));
+                        }}
+                        style={{
+                          padding: '0.35rem 0.65rem',
+                          borderRadius: '6px',
+                          background: '#E2E8F0',
+                          color: '#334155',
+                          border: '1px solid #CBD5E1',
+                          fontSize: '0.75rem',
+                          fontWeight: 700,
+                          cursor: 'pointer',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        📋 Presets
+                      </button>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                    {(productForm.paperOptions || []).map((paper, idx) => (
+                      <div key={idx} style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                        <input
+                          type="text"
+                          value={paper.label}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setProductForm((prev) => {
+                              const updated = [...(prev.paperOptions || [])];
+                              updated[idx] = { ...updated[idx], label: val };
+                              return { ...prev, paperOptions: updated };
+                            });
+                          }}
+                          placeholder="e.g. Velvet Touch Soft-Feel"
+                          style={{ flex: 2, padding: '0.5rem 0.65rem', borderRadius: '6px', border: '1px solid #CBD5E1', color: '#0F172A', backgroundColor: '#FFFFFF', fontSize: '0.8125rem' }}
+                        />
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', flex: 1 }}>
+                          <span style={{ fontSize: '0.75rem', color: '#0B2545', fontWeight: 700 }}>+₹</span>
+                          <input
+                            type="number"
+                            min={0}
+                            value={paper.extraPrice}
+                            onChange={(e) => {
+                              const val = Number(e.target.value) || 0;
+                              setProductForm((prev) => {
+                                const updated = [...(prev.paperOptions || [])];
+                                updated[idx] = { ...updated[idx], extraPrice: val };
+                                return { ...prev, paperOptions: updated };
+                              });
+                            }}
+                            placeholder="Extra cost"
+                            style={{ width: '100%', padding: '0.5rem 0.65rem', borderRadius: '6px', border: '1px solid #CBD5E1', color: '#0F172A', backgroundColor: '#FFFFFF', fontSize: '0.8125rem' }}
+                          />
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setProductForm((prev) => ({
+                              ...prev,
+                              paperOptions: (prev.paperOptions || []).filter((_, i) => i !== idx),
+                            }));
+                          }}
+                          style={{
+                            padding: '0.45rem 0.65rem',
+                            borderRadius: '6px',
+                            background: '#FEE2E2',
+                            color: '#DC2626',
+                            border: '1px solid #FCA5A5',
+                            fontSize: '0.8rem',
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                          }}
+                          title="Delete Finish"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    ))}
+                    {(!productForm.paperOptions || productForm.paperOptions.length === 0) && (
+                      <div style={{ fontSize: '0.75rem', color: '#94A3B8', textAlign: 'center', padding: '0.5rem' }}>
+                        No finishes added. Click &quot;➕ Add Finish&quot; or &quot;📋 Presets&quot; to add.
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* ═══ QUANTITY TIERS & MULTIPLIERS ═══ */}
+                <div style={{ background: '#F8FAFC', border: '1px solid #CBD5E1', borderRadius: '10px', padding: '1rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.65rem', gap: '0.5rem' }}>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: 800, color: '#0B2545', margin: 0 }}>
+                        📦 Print Quantities & Price Multipliers
+                      </label>
+                      <span style={{ fontSize: '0.725rem', color: '#64748B' }}>
+                        Selectable quantity pills. Base price is multiplied by factor for total cost.
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setProductForm((prev) => ({
+                          ...prev,
+                          quantityOptions: [
+                            ...(prev.quantityOptions || []),
+                            { qty: 2000, multiplier: 11.5 },
+                          ],
+                        }));
+                      }}
+                      style={{
+                        padding: '0.35rem 0.65rem',
+                        borderRadius: '6px',
+                        background: '#0B2545',
+                        color: '#FFFFFF',
+                        border: 'none',
+                        fontSize: '0.75rem',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      ➕ Add Qty Tier
+                    </button>
+                  </div>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                    {(productForm.quantityOptions || []).map((qtyObj, idx) => (
+                      <div key={idx} style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                        <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                          <input
+                            type="number"
+                            min={1}
+                            value={qtyObj.qty}
+                            onChange={(e) => {
+                              const val = Number(e.target.value) || 100;
+                              setProductForm((prev) => {
+                                const updated = [...(prev.quantityOptions || [])];
+                                updated[idx] = { ...updated[idx], qty: val };
+                                return { ...prev, quantityOptions: updated };
+                              });
+                            }}
+                            placeholder="Qty (e.g. 500)"
+                            style={{ width: '100%', padding: '0.5rem 0.65rem', borderRadius: '6px', border: '1px solid #CBD5E1', color: '#0F172A', backgroundColor: '#FFFFFF', fontSize: '0.8125rem' }}
+                          />
+                          <span style={{ fontSize: '0.75rem', color: '#64748B' }}>Pcs</span>
+                        </div>
+                        <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+                          <span style={{ fontSize: '0.75rem', color: '#64748B', fontWeight: 700 }}>×</span>
+                          <input
+                            type="number"
+                            step="0.1"
+                            min={0.1}
+                            value={qtyObj.multiplier}
+                            onChange={(e) => {
+                              const val = Number(e.target.value) || 1;
+                              setProductForm((prev) => {
+                                const updated = [...(prev.quantityOptions || [])];
+                                updated[idx] = { ...updated[idx], multiplier: val };
+                                return { ...prev, quantityOptions: updated };
+                              });
+                            }}
+                            placeholder="Multiplier"
+                            style={{ width: '100%', padding: '0.5rem 0.65rem', borderRadius: '6px', border: '1px solid #CBD5E1', color: '#0F172A', backgroundColor: '#FFFFFF', fontSize: '0.8125rem' }}
+                          />
+                          <span style={{ fontSize: '0.725rem', color: '#10B981', fontWeight: 700, whiteSpace: 'nowrap' }}>
+                            = ₹{Math.round((productForm.numericPrice || 0) * (qtyObj.multiplier || 1)).toLocaleString()}
+                          </span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setProductForm((prev) => ({
+                              ...prev,
+                              quantityOptions: (prev.quantityOptions || []).filter((_, i) => i !== idx),
+                            }));
+                          }}
+                          style={{
+                            padding: '0.45rem 0.65rem',
+                            borderRadius: '6px',
+                            background: '#FEE2E2',
+                            color: '#DC2626',
+                            border: '1px solid #FCA5A5',
+                            fontSize: '0.8rem',
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                          }}
+                          title="Delete Quantity Tier"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* ═══ CORNER STYLES & CUSTOMIZER LINK ═══ */}
+                <div className="admin-grid-2col" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '0.85rem' }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>
+                      ✂️ Corner Style Options (Comma separated)
+                    </label>
+                    <input
+                      type="text"
+                      value={productForm.cornerOptions}
+                      onChange={(e) => setProductForm({ ...productForm, cornerOptions: e.target.value })}
+                      placeholder="Standard Cut, Rounded Corners"
+                      style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', color: '#0F172A', backgroundColor: '#FFFFFF', fontSize: '0.875rem' }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>
+                      🔗 3D Visual Customizer Link
+                    </label>
+                    <select
+                      value={productForm.customizerId}
+                      onChange={(e) => setProductForm({ ...productForm, customizerId: e.target.value })}
+                      style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', backgroundColor: '#FFFFFF', color: '#0F172A', fontSize: '0.875rem' }}
+                    >
+                      <option value="visiting-card">Visiting Cards (3D Preview, Paper, Foils)</option>
+                      <option value="wedding-card">Wedding Cards (Velvet Box, Shahi Scroll)</option>
+                      <option value="flex-banner">Flex Banners (Grommets, Framing)</option>
+                      <option value="photobook">Photobooks (Silk Sheet, Briefcase)</option>
+                      <option value="custom-mug">Magic Photo Mugs (Color Reveal)</option>
+                    </select>
+                  </div>
+                </div>
+
                 <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.5rem' }}>
                   <button type="submit" style={{ flex: 1, padding: '0.85rem', borderRadius: '999px', background: '#059669', color: '#FFFFFF', border: 'none', fontWeight: 800, fontSize: '0.925rem', cursor: 'pointer', boxShadow: '0 4px 12px rgba(5,150,105,0.25)' }}>
                     {editingProduct ? '💾 Update Product' : '✓ Create Product'}
@@ -2408,26 +2776,41 @@ export default function AdminPortalPage() {
               </h3>
               <form onSubmit={handleSaveCategorySubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Category ID *</label>
-                  <input
-                    type="text"
-                    required
-                    disabled={!!editingCategory}
-                    value={categoryForm.id}
-                    onChange={(e) => setCategoryForm({ ...categoryForm, id: e.target.value })}
-                    style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', background: editingCategory ? '#F1F5F9' : '#FFFFFF', color: '#0F172A', fontSize: '0.875rem' }}
-                  />
-                </div>
-                <div>
-                  <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Label *</label>
+                  <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Category Label *</label>
                   <input
                     type="text"
                     required
                     value={categoryForm.label}
-                    onChange={(e) => setCategoryForm({ ...categoryForm, label: e.target.value })}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setCategoryForm((prev) => {
+                        const cleanLabel = val.replace(/^[^\w\s]+/u, '').trim();
+                        return {
+                          ...prev,
+                          label: val,
+                          id: editingCategory ? prev.id : (cleanLabel || prev.id),
+                        };
+                      });
+                    }}
                     placeholder="e.g. 💍 Wedding Invitation Cards"
                     style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', color: '#0F172A', backgroundColor: '#FFFFFF', fontSize: '0.875rem' }}
                   />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>
+                    Category ID (System Key)
+                  </label>
+                  <input
+                    type="text"
+                    disabled={!!editingCategory}
+                    value={categoryForm.id}
+                    onChange={(e) => setCategoryForm({ ...categoryForm, id: e.target.value })}
+                    placeholder="Auto-generated from label (e.g. Wedding Cards)"
+                    style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', background: editingCategory ? '#F1F5F9' : '#FFFFFF', color: '#0F172A', fontSize: '0.875rem' }}
+                  />
+                  <span style={{ fontSize: '0.7rem', color: '#64748B', display: 'block', marginTop: '0.25rem' }}>
+                    Used internally to link products. Leave blank to auto-create from label.
+                  </span>
                 </div>
                 <div>
                   <label style={{ display: 'block', fontSize: '0.78125rem', fontWeight: 700, color: '#0B2545', marginBottom: '0.25rem' }}>Icon Emoji</label>
@@ -2435,7 +2818,7 @@ export default function AdminPortalPage() {
                     type="text"
                     value={categoryForm.icon}
                     onChange={(e) => setCategoryForm({ ...categoryForm, icon: e.target.value })}
-                    placeholder="e.g. 💍 or 💳"
+                    placeholder="e.g. 💍 or 💳 or 🪧"
                     style={{ width: '100%', padding: '0.65rem 0.85rem', borderRadius: '8px', border: '1px solid #CBD5E1', color: '#0F172A', backgroundColor: '#FFFFFF', fontSize: '0.875rem' }}
                   />
                 </div>

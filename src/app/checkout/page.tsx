@@ -121,7 +121,7 @@ export default function CheckoutPage() {
 
   // Dynamic QR Code URL for Ayushman Cards & Graphics
   const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(
-    `upi://pay?pa=9479784979@paytm&pn=AyushmanCardsAndGraphics&am=${finalTotal}&cu=INR&tn=Order_Payment`
+    `upi://pay?pa=9479784979@ybl&pn=AyushmanCardsAndGraphics&am=${finalTotal}&cu=INR&tn=Order_Payment`
   )}`;
 
   const handleInitiateOrder = async (e: React.FormEvent) => {
@@ -861,27 +861,8 @@ export default function CheckoutPage() {
               {activePaymentTab === 'upi' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                   <p style={{ fontSize: '0.8125rem', color: '#6B7280', margin: 0 }}>
-                    Tap any UPI app below to pay directly to <strong>9479784979</strong> (Ayushman Cards & Graphics):
+                    Tap below to pay directly to <strong>9479784979</strong> (Ayushman Cards & Graphics):
                   </p>
-
-                  <a
-                    href={`upi://pay?pa=9479784979@paytm&pn=AyushmanCardsAndGraphics&am=${finalTotal}&cu=INR`}
-                    style={{
-                      padding: '0.75rem 1rem',
-                      borderRadius: '8px',
-                      background: '#002970',
-                      color: '#FFFFFF',
-                      textDecoration: 'none',
-                      fontWeight: 700,
-                      fontSize: '0.875rem',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <span>🔵 Pay via Paytm App</span>
-                    <span>9479784979@paytm</span>
-                  </a>
 
                   <a
                     href={`upi://pay?pa=9479784979@ybl&pn=AyushmanCardsAndGraphics&am=${finalTotal}&cu=INR`}
@@ -901,25 +882,6 @@ export default function CheckoutPage() {
                     <span>🟣 Pay via PhonePe App</span>
                     <span>9479784979@ybl</span>
                   </a>
-
-                  <a
-                    href={`upi://pay?pa=9479784979@okaxis&pn=AyushmanCardsAndGraphics&am=${finalTotal}&cu=INR`}
-                    style={{
-                      padding: '0.75rem 1rem',
-                      borderRadius: '8px',
-                      background: '#4285F4',
-                      color: '#FFFFFF',
-                      textDecoration: 'none',
-                      fontWeight: 700,
-                      fontSize: '0.875rem',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <span>🟢 Pay via Google Pay (GPay)</span>
-                    <span>9479784979@okaxis</span>
-                  </a>
                 </div>
               )}
 
@@ -927,7 +889,7 @@ export default function CheckoutPage() {
               {activePaymentTab === 'qr' && (
                 <div style={{ textAlign: 'center' }}>
                   <p style={{ fontSize: '0.8125rem', color: '#6B7280', marginBottom: '0.75rem' }}>
-                    Scan QR code with GPay, PhonePe, Paytm or BHIM to complete payment:
+                    Scan QR code with PhonePe or any UPI app to complete payment:
                   </p>
                   <div style={{ background: '#FFFFFF', padding: '1rem', borderRadius: '12px', display: 'inline-block', border: '1px solid #E5E7EB', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}

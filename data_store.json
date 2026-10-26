@@ -114,7 +114,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "wed-2",
@@ -136,7 +180,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "wed-3",
@@ -158,7 +246,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "wed-4",
@@ -180,7 +312,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "wed-5",
@@ -202,7 +378,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "wed-6",
@@ -224,7 +444,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "wed-7",
@@ -246,7 +510,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "wed-8",
@@ -268,7 +576,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "wed-9",
@@ -290,7 +642,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "vc-metal",
@@ -312,7 +708,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "vc-500-velvet",
@@ -334,7 +774,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "vc-500-matt",
@@ -356,7 +840,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "vc-800-velvet",
@@ -378,7 +906,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "vc-800-matt",
@@ -400,7 +972,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "vc-800-gold-silver",
@@ -422,7 +1038,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "vc-180-nt",
@@ -444,7 +1104,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "vc-matt-spotuv",
@@ -466,7 +1170,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "vc-matt-texture",
@@ -488,7 +1236,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "vc-gloss-lamination",
@@ -510,7 +1302,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "vc-uncoated",
@@ -532,7 +1368,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "vc-mini-cards",
@@ -554,7 +1434,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "bday-1",
@@ -576,7 +1500,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "bday-2",
@@ -598,7 +1566,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "bday-3",
@@ -620,7 +1632,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "bday-4",
@@ -642,7 +1698,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "st-1",
@@ -664,7 +1764,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "st-2",
@@ -686,7 +1830,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "st-3",
@@ -708,7 +1896,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "st-4",
@@ -730,7 +1962,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "flex-1",
@@ -752,7 +2028,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "flex-2",
@@ -774,7 +2094,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "flex-3",
@@ -796,7 +2160,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "stk-1",
@@ -818,7 +2226,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "stk-2",
@@ -840,7 +2292,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "stk-3",
@@ -862,7 +2358,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "pb-1",
@@ -884,7 +2424,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "pb-2",
@@ -906,7 +2490,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "gift-1",
@@ -928,7 +2556,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "gift-2",
@@ -950,7 +2622,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     },
     {
       "id": "gift-3",
@@ -972,7 +2688,51 @@
       ],
       "isActive": true,
       "createdAt": "2025-01-01T00:00:00.000Z",
-      "updatedAt": "2025-01-01T00:00:00.000Z"
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "paperOptions": [
+        {
+          "label": "350 GSM Premium Matte",
+          "extraPrice": 0
+        },
+        {
+          "label": "Glossy Laminated (350 GSM)",
+          "extraPrice": 30
+        },
+        {
+          "label": "Velvet Touch Soft-Feel",
+          "extraPrice": 80
+        },
+        {
+          "label": "Spot UV Selective Coating",
+          "extraPrice": 150
+        },
+        {
+          "label": "Royal Gold Foil Embossed",
+          "extraPrice": 250
+        }
+      ],
+      "quantityOptions": [
+        {
+          "qty": 100,
+          "multiplier": 1
+        },
+        {
+          "qty": 250,
+          "multiplier": 2.2
+        },
+        {
+          "qty": 500,
+          "multiplier": 3.8
+        },
+        {
+          "qty": 1000,
+          "multiplier": 6.5
+        }
+      ],
+      "cornerOptions": [
+        "Standard Cut",
+        "Rounded Corners"
+      ]
     }
   ],
   "banners": [

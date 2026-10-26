@@ -201,7 +201,7 @@ export default function Footer() {
               We accept
             </span>
             <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-              {['UPI', 'GPay', 'PhonePe', 'Paytm', 'Visa', 'Mastercard', 'Razorpay'].map((m) => (
+              {['UPI', 'PhonePe', 'Visa', 'Mastercard', 'Razorpay'].map((m) => (
                 <span
                   key={m}
                   style={{

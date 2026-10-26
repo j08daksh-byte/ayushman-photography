@@ -23,6 +23,9 @@ export interface ProductCatalogItem {
   rating?: number;
   reviews?: number;
   features?: string[];
+  paperOptions?: { label: string; extraPrice: number }[];
+  quantityOptions?: { qty: number; multiplier: number }[];
+  cornerOptions?: string[];
 }
 
 const CATALOG_ITEMS: ProductCatalogItem[] = [
@@ -588,10 +591,10 @@ function CatalogContent() {
         const res = await fetch('/api/products');
         if (res.ok) {
           const data = await res.json();
-          if (data.success && Array.isArray(data.products) && data.products.length > 0) {
+          if (data.success && Array.isArray(data.products)) {
             setCatalogItems(data.products);
           }
-          if (data.success && Array.isArray(data.categories) && data.categories.length > 0) {
+          if (data.success && Array.isArray(data.categories)) {
             setCategories(data.categories);
           }
         }
@@ -607,9 +610,11 @@ function CatalogContent() {
 
     window.addEventListener('catalogUpdated', handleUpdate);
     window.addEventListener('storage', handleUpdate);
+    window.addEventListener('focus', handleUpdate);
     return () => {
       window.removeEventListener('catalogUpdated', handleUpdate);
       window.removeEventListener('storage', handleUpdate);
+      window.removeEventListener('focus', handleUpdate);
     };
   }, []);
 
@@ -639,7 +644,12 @@ function CatalogContent() {
 
   const filteredItems = useMemo(() => {
     return catalogItems.filter((item) => {
-      const matchesCat = selectedCategory === 'All Products' || item.category === selectedCategory;
+      const itemCat = (item.category || '').toLowerCase().trim();
+      const selCat = (selectedCategory || '').toLowerCase().trim();
+      const matchesCat =
+        selectedCategory === 'All Products' ||
+        itemCat === selCat ||
+        item.category === selectedCategory;
       const matchesSearch =
         searchQuery === '' ||
         item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -862,6 +872,11 @@ function CatalogContent() {
                       price: item.price,
                       unit: item.unit,
                       category: item.category,
+                      description: item.description,
+                      features: item.features,
+                      paperOptions: item.paperOptions,
+                      quantityOptions: item.quantityOptions,
+                      cornerOptions: item.cornerOptions,
                     })
                   }
                   onQuickAdd={(e) => handleQuickAdd(item, e)}
@@ -931,6 +946,11 @@ function CatalogContent() {
                             price: item.price,
                             unit: item.unit,
                             category: item.category,
+                            description: item.description,
+                            features: item.features,
+                            paperOptions: item.paperOptions,
+                            quantityOptions: item.quantityOptions,
+                            cornerOptions: item.cornerOptions,
                           })
                         }
                         onQuickAdd={(e) => handleQuickAdd(item, e)}

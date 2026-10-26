@@ -65,6 +65,33 @@ export interface CategoryRecord {
   updatedAt: string;
 }
 
+export interface PaperOption {
+  label: string;
+  extraPrice: number;
+}
+
+export interface QuantityOption {
+  qty: number;
+  multiplier: number;
+}
+
+export const DEFAULT_PAPER_OPTIONS: PaperOption[] = [
+  { label: '350 GSM Premium Matte', extraPrice: 0 },
+  { label: 'Glossy Laminated (350 GSM)', extraPrice: 30 },
+  { label: 'Velvet Touch Soft-Feel', extraPrice: 80 },
+  { label: 'Spot UV Selective Coating', extraPrice: 150 },
+  { label: 'Royal Gold Foil Embossed', extraPrice: 250 },
+];
+
+export const DEFAULT_QUANTITY_OPTIONS: QuantityOption[] = [
+  { qty: 100, multiplier: 1 },
+  { qty: 250, multiplier: 2.2 },
+  { qty: 500, multiplier: 3.8 },
+  { qty: 1000, multiplier: 6.5 },
+];
+
+export const DEFAULT_CORNER_OPTIONS: string[] = ['Standard Cut', 'Rounded Corners'];
+
 export interface ProductRecord {
   id: string;
   customizerId: string;
@@ -79,6 +106,9 @@ export interface ProductRecord {
   rating?: number;
   reviews?: number;
   features?: string[];
+  paperOptions?: PaperOption[];
+  quantityOptions?: QuantityOption[];
+  cornerOptions?: string[];
   isActive?: boolean;
   createdAt: string;
   updatedAt: string;
@@ -974,22 +1004,82 @@ const DEFAULT_STORE: DBStore = {
   settings: DEFAULT_SETTINGS,
 };
 
-function getValidDBFilePath(): string | null {
-  if (fs.existsSync(PRIMARY_DB_PATH)) return PRIMARY_DB_PATH;
+export function getBundledDbPath(): string {
+  // 1. Direct path from cwd
+  const cwdPath = path.resolve(process.cwd(), 'data_store.json');
+  if (fs.existsSync(cwdPath)) return cwdPath;
+
+  // 2. Search upwards in case process.cwd() is inside a subdirectory
+  let currentDir = process.cwd();
+  for (let i = 0; i < 4; i++) {
+    const candidate = path.resolve(currentDir, 'data_store.json');
+    if (fs.existsSync(candidate)) return candidate;
+    const parent = path.dirname(currentDir);
+    if (parent === currentDir) break;
+    currentDir = parent;
+  }
+
+  // 3. Known project directory
+  const knownPath = 'd:\\Webs\\Ayushman-Photography-Website\\data_store.json';
+  if (fs.existsSync(knownPath)) return knownPath;
+
+  return cwdPath;
+}
+
+let isEnvironmentServerless: boolean | null = null;
+
+export function isServerlessReadOnly(): boolean {
+  if (isEnvironmentServerless !== null) return isEnvironmentServerless;
+  if (process.env.VERCEL === '1' || Boolean(process.env.AWS_LAMBDA_FUNCTION_NAME)) {
+    isEnvironmentServerless = true;
+    return true;
+  }
+  const bundled = getBundledDbPath();
+  try {
+    if (fs.existsSync(bundled)) {
+      fs.accessSync(bundled, fs.constants.W_OK);
+      isEnvironmentServerless = false;
+      return false;
+    }
+  } catch {
+    isEnvironmentServerless = true;
+    return true;
+  }
+  isEnvironmentServerless = false;
+  return false;
+}
+
+export function resolveDbPath(): string {
+  const isServerless = isServerlessReadOnly();
+  const bundledPath = getBundledDbPath();
+
+  if (isServerless) {
+    // In serverless / Vercel: /tmp is the only writable directory.
+    // Ensure /tmp copy exists by initializing from bundled file if missing.
+    if (!fs.existsSync(BACKUP_DB_PATH)) {
+      try {
+        if (fs.existsSync(bundledPath)) {
+          const content = fs.readFileSync(bundledPath, 'utf-8');
+          fs.writeFileSync(BACKUP_DB_PATH, content, 'utf-8');
+        }
+      } catch (err) {
+        console.warn('Error copying bundled DB to /tmp in serverless:', err);
+      }
+    }
+    return BACKUP_DB_PATH;
+  }
+
+  // Local development or writable server:
+  if (fs.existsSync(bundledPath)) return bundledPath;
   if (fs.existsSync(BACKUP_DB_PATH)) return BACKUP_DB_PATH;
-  return null;
+  return bundledPath;
 }
 
 function readStore(): DBStore {
-  const filePath = getValidDBFilePath();
+  const filePath = resolveDbPath();
 
-  if (filePath) {
+  if (fs.existsSync(filePath)) {
     try {
-      const stat = fs.statSync(filePath);
-      if (globalThis.__ayushmanInMemoryDB && globalThis.__ayushmanDBMtime && stat.mtimeMs <= globalThis.__ayushmanDBMtime) {
-        return globalThis.__ayushmanInMemoryDB;
-      }
-
       const content = fs.readFileSync(filePath, 'utf-8');
       const parsed = JSON.parse(content);
       if (parsed) {
@@ -997,9 +1087,9 @@ function readStore(): DBStore {
           users: Array.isArray(parsed.users) && parsed.users.length > 0 ? parsed.users : [...DEFAULT_STORE.users],
           bookings: Array.isArray(parsed.bookings) ? parsed.bookings : [],
           inquiries: Array.isArray(parsed.inquiries) ? parsed.inquiries : [],
-          categories: Array.isArray(parsed.categories) && parsed.categories.length > 0 ? parsed.categories : [...DEFAULT_STORE.categories],
-          products: Array.isArray(parsed.products) && parsed.products.length > 0 ? parsed.products : [...DEFAULT_STORE.products],
-          banners: Array.isArray(parsed.banners) && parsed.banners.length > 0 ? parsed.banners : [...DEFAULT_STORE.banners],
+          categories: Array.isArray(parsed.categories) ? parsed.categories : [...DEFAULT_STORE.categories],
+          products: Array.isArray(parsed.products) ? parsed.products : [...DEFAULT_STORE.products],
+          banners: Array.isArray(parsed.banners) ? parsed.banners : [...DEFAULT_STORE.banners],
           settings: parsed.settings ? { ...DEFAULT_SETTINGS, ...parsed.settings } : { ...DEFAULT_SETTINGS },
         };
 
@@ -1009,7 +1099,6 @@ function readStore(): DBStore {
         }
 
         globalThis.__ayushmanInMemoryDB = store;
-        globalThis.__ayushmanDBMtime = stat.mtimeMs;
         return store;
       }
     } catch (err) {
@@ -1017,6 +1106,7 @@ function readStore(): DBStore {
     }
   }
 
+  // Fallback to in-memory store if file not yet written or read fails
   if (globalThis.__ayushmanInMemoryDB) {
     return globalThis.__ayushmanInMemoryDB;
   }
@@ -1039,27 +1129,30 @@ function readStore(): DBStore {
 function writeStore(store: DBStore) {
   globalThis.__ayushmanInMemoryDB = store;
   const jsonContent = JSON.stringify(store, null, 2);
-  let written = false;
+  const targetPath = resolveDbPath();
 
-  // 1. Try writing to primary project root data_store.json (persistent across local restarts & commits)
+  // 1. Primary write to target path (data_store.json locally or /tmp in serverless)
   try {
-    fs.writeFileSync(PRIMARY_DB_PATH, jsonContent, 'utf-8');
-    const stat = fs.statSync(PRIMARY_DB_PATH);
-    globalThis.__ayushmanDBMtime = stat.mtimeMs;
-    written = true;
-  } catch {
-    // Read-only filesystem in Vercel lambda production
+    fs.writeFileSync(targetPath, jsonContent, 'utf-8');
+  } catch (err) {
+    console.warn(`Primary DB file write warning on ${targetPath}:`, err);
   }
 
-  // 2. Also write to os.tmpdir() backup
-  try {
-    fs.writeFileSync(BACKUP_DB_PATH, jsonContent, 'utf-8');
-    if (!written) {
-      const stat = fs.statSync(BACKUP_DB_PATH);
-      globalThis.__ayushmanDBMtime = stat.mtimeMs;
+  // 2. Also keep backup/mirror in sync if different
+  const bundledPath = getBundledDbPath();
+  if (targetPath !== bundledPath && !isServerlessReadOnly()) {
+    try {
+      fs.writeFileSync(bundledPath, jsonContent, 'utf-8');
+    } catch {
+      // Ignore
     }
-  } catch (err) {
-    console.warn('DB file write warning (using in-memory store):', err);
+  }
+  if (targetPath !== BACKUP_DB_PATH) {
+    try {
+      fs.writeFileSync(BACKUP_DB_PATH, jsonContent, 'utf-8');
+    } catch {
+      // Ignore
+    }
   }
 }
 
@@ -1278,15 +1371,33 @@ class CategoryClient {
 
   async findUnique(args: { where: { id: string } }): Promise<CategoryRecord | null> {
     const store = readStore();
-    return (store.categories || []).find((c) => c.id === args.where.id) || null;
+    const cleanId = args.where.id.trim().toLowerCase();
+    return (store.categories || []).find((c) => c.id.trim().toLowerCase() === cleanId || c.label.trim().toLowerCase() === cleanId) || null;
   }
 
   async create(args: { data: { id: string; label: string; icon?: string; description?: string } }): Promise<CategoryRecord> {
     const store = readStore();
     const now = new Date().toISOString();
+    const catId = args.data.id.trim();
+    const cleanId = catId.toLowerCase();
+
+    // If category with same id already exists, update it cleanly
+    const existingIdx = store.categories.findIndex((c) => c.id.trim().toLowerCase() === cleanId);
+    if (existingIdx !== -1) {
+      store.categories[existingIdx] = {
+        ...store.categories[existingIdx],
+        label: args.data.label.trim(),
+        icon: args.data.icon || store.categories[existingIdx].icon || '📦',
+        description: args.data.description !== undefined ? args.data.description : store.categories[existingIdx].description,
+        updatedAt: now,
+      };
+      writeStore(store);
+      return store.categories[existingIdx];
+    }
+
     const newCat: CategoryRecord = {
-      id: args.data.id,
-      label: args.data.label,
+      id: catId,
+      label: args.data.label.trim(),
       icon: args.data.icon || '📦',
       description: args.data.description || '',
       createdAt: now,
@@ -1299,7 +1410,8 @@ class CategoryClient {
 
   async update(args: { where: { id: string }; data: Partial<CategoryRecord> }): Promise<CategoryRecord> {
     const store = readStore();
-    const idx = store.categories.findIndex((c) => c.id === args.where.id);
+    const cleanId = args.where.id.trim().toLowerCase();
+    const idx = store.categories.findIndex((c) => c.id.trim().toLowerCase() === cleanId);
     if (idx === -1) throw new Error('Category not found');
     const updated: CategoryRecord = {
       ...store.categories[idx],
@@ -1313,8 +1425,9 @@ class CategoryClient {
 
   async delete(args: { where: { id: string } }): Promise<boolean> {
     const store = readStore();
+    const cleanId = args.where.id.trim().toLowerCase();
     const initialLen = store.categories.length;
-    store.categories = store.categories.filter((c) => c.id !== args.where.id);
+    store.categories = store.categories.filter((c) => c.id.trim().toLowerCase() !== cleanId && c.label.trim().toLowerCase() !== cleanId);
     writeStore(store);
     return store.categories.length < initialLen;
   }
@@ -1325,17 +1438,31 @@ class ProductClient {
     const store = readStore();
     let result = store.products || [];
     if (args?.where?.category && args.where.category !== 'All Products') {
-      result = result.filter((p) => p.category === args?.where?.category);
+      const catLower = args.where.category.trim().toLowerCase();
+      result = result.filter((p) => p.category.trim().toLowerCase() === catLower);
     }
     if (args?.where?.isActive !== undefined) {
       result = result.filter((p) => (p.isActive !== false) === args.where?.isActive);
     }
-    return result;
+    return result.map((p) => ({
+      ...p,
+      paperOptions: Array.isArray(p.paperOptions) && p.paperOptions.length > 0 ? p.paperOptions : DEFAULT_PAPER_OPTIONS,
+      quantityOptions: Array.isArray(p.quantityOptions) && p.quantityOptions.length > 0 ? p.quantityOptions : DEFAULT_QUANTITY_OPTIONS,
+      cornerOptions: Array.isArray(p.cornerOptions) && p.cornerOptions.length > 0 ? p.cornerOptions : DEFAULT_CORNER_OPTIONS,
+    }));
   }
 
   async findUnique(args: { where: { id: string } }): Promise<ProductRecord | null> {
     const store = readStore();
-    return (store.products || []).find((p) => p.id === args.where.id) || null;
+    const cleanId = args.where.id.trim();
+    const prod = (store.products || []).find((p) => p.id.trim() === cleanId) || null;
+    if (!prod) return null;
+    return {
+      ...prod,
+      paperOptions: Array.isArray(prod.paperOptions) && prod.paperOptions.length > 0 ? prod.paperOptions : DEFAULT_PAPER_OPTIONS,
+      quantityOptions: Array.isArray(prod.quantityOptions) && prod.quantityOptions.length > 0 ? prod.quantityOptions : DEFAULT_QUANTITY_OPTIONS,
+      cornerOptions: Array.isArray(prod.cornerOptions) && prod.cornerOptions.length > 0 ? prod.cornerOptions : DEFAULT_CORNER_OPTIONS,
+    };
   }
 
   async create(args: { data: Omit<ProductRecord, 'id' | 'createdAt' | 'updatedAt'> }): Promise<ProductRecord> {
@@ -1344,6 +1471,9 @@ class ProductClient {
     const newProduct: ProductRecord = {
       ...args.data,
       id: generateId('prd'),
+      paperOptions: Array.isArray(args.data.paperOptions) && args.data.paperOptions.length > 0 ? args.data.paperOptions : DEFAULT_PAPER_OPTIONS,
+      quantityOptions: Array.isArray(args.data.quantityOptions) && args.data.quantityOptions.length > 0 ? args.data.quantityOptions : DEFAULT_QUANTITY_OPTIONS,
+      cornerOptions: Array.isArray(args.data.cornerOptions) && args.data.cornerOptions.length > 0 ? args.data.cornerOptions : DEFAULT_CORNER_OPTIONS,
       isActive: args.data.isActive !== undefined ? args.data.isActive : true,
       createdAt: now,
       updatedAt: now,
@@ -1355,7 +1485,8 @@ class ProductClient {
 
   async update(args: { where: { id: string }; data: Partial<ProductRecord> }): Promise<ProductRecord> {
     const store = readStore();
-    const idx = store.products.findIndex((p) => p.id === args.where.id);
+    const cleanId = args.where.id.trim();
+    const idx = store.products.findIndex((p) => p.id.trim() === cleanId);
     if (idx === -1) throw new Error('Product not found');
     const updated: ProductRecord = {
       ...store.products[idx],
@@ -1364,13 +1495,19 @@ class ProductClient {
     };
     store.products[idx] = updated;
     writeStore(store);
-    return updated;
+    return {
+      ...updated,
+      paperOptions: Array.isArray(updated.paperOptions) && updated.paperOptions.length > 0 ? updated.paperOptions : DEFAULT_PAPER_OPTIONS,
+      quantityOptions: Array.isArray(updated.quantityOptions) && updated.quantityOptions.length > 0 ? updated.quantityOptions : DEFAULT_QUANTITY_OPTIONS,
+      cornerOptions: Array.isArray(updated.cornerOptions) && updated.cornerOptions.length > 0 ? updated.cornerOptions : DEFAULT_CORNER_OPTIONS,
+    };
   }
 
   async delete(args: { where: { id: string } }): Promise<boolean> {
     const store = readStore();
+    const cleanId = args.where.id.trim();
     const initialLen = store.products.length;
-    store.products = store.products.filter((p) => p.id !== args.where.id);
+    store.products = store.products.filter((p) => p.id.trim() !== cleanId);
     writeStore(store);
     return store.products.length < initialLen;
   }
